@@ -1,1 +1,1 @@
-# guildboard
+# GuildBoard
