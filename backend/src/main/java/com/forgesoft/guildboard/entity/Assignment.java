@@ -32,4 +32,6 @@ public class Assignment {
 
     @Column(name = "\"completedAt\"")
     private LocalDateTime completedAt;
+
+    // Getters and setters
 }
