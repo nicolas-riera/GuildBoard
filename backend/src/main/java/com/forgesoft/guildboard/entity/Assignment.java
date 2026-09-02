@@ -33,5 +33,43 @@ public class Assignment {
     @Column(name = "\"completedAt\"")
     private LocalDateTime completedAt;
 
-    // Getters and setters
+    // -----------------
+
+    // Getters
+    public Long getId() {
+        return this.id;
+    }
+
+    public Adventurer getAdventurer() {
+        return this.adventurer;
+    }
+
+    public Quest getQuest() {
+        return this.quest;
+    }
+
+    public LocalDateTime getAssignedAt() {
+        return this.assignedAt;
+    }
+
+    public LocalDateTime getCompletedAt() {
+        return this.completedAt;
+    }
+
+    // Setters
+    public void setAdventurer(Adventurer adventurer) {
+        this.adventurer = adventurer;
+    }
+
+    public void setQuest(Quest quest) {
+        this.quest = quest;
+    }
+
+    public void setAssignedAt(LocalDateTime assignedAt) {
+        this.assignedAt = assignedAt;
+    }
+
+    public void setCompletedAt(LocalDateTime completedAt) {
+        this.completedAt = completedAt;
+    }
 }

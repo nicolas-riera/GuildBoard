@@ -55,5 +55,69 @@ public class Quest {
     @Enumerated(EnumType.STRING)
     private QuestStatus status = QuestStatus.AVALAIBLE;
 
-    // Getters and setters
+    // -----------------
+
+    // Getters 
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public Difficulty getDifficulty() {
+        return this.difficulty;
+    }
+
+    public int getRequiredLevel() {
+        return this.requiredLevel;
+    }
+
+    public int getGoldReward() {
+        return this.goldReward;
+    }
+
+    public int getXpReward() {
+        return this.xpReward;
+    }
+
+    public QuestStatus getStatus() {
+        return this.status;
+    }
+
+    // Setters
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public void setRequiredLevel(int requiredLevel) {
+        this.requiredLevel = requiredLevel;
+    }
+
+    public void setGoldReward(int goldReward) {
+        this.goldReward = goldReward;
+    }
+
+    public void setXpReward(int xpReward) {
+        this.xpReward = xpReward;
+    }
+
+    public void setStatus(QuestStatus status) {
+        this.status = status;
+    }
 }

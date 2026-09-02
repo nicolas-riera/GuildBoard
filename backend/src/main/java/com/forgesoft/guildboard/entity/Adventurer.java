@@ -44,6 +44,53 @@ public class Adventurer {
     @Min(0)
     @Column(name = "gold", nullable = false)
     private int gold = 0;
+
+    // -----------------
     
-    // Getters and setters
+    // Getters
+    public Long getId() {
+        return this.id;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public CharacterClass getCharacterClass() {
+        return this.characterClass;
+    }
+
+    public int getLevel() {
+        return this.level;
+    }
+
+    public int getXp() {
+        return this.xp;
+    }
+
+    public int getGold() {
+        return this.gold;
+    }
+
+    // Setters
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCharacterClass(CharacterClass characterClass) {
+        this.characterClass = characterClass;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public void setXP(int xp) {
+        this.xp = xp;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
 }
