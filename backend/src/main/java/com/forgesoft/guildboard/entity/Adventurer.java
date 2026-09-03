@@ -86,7 +86,7 @@ public class Adventurer {
         this.level = level;
     }
 
-    public void setXP(int xp) {
+    public void setXp(int xp) {
         this.xp = xp;
     }
 
