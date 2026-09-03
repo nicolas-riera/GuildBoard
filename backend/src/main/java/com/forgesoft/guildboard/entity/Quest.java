@@ -53,7 +53,7 @@ public class Quest {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    private QuestStatus status = QuestStatus.AVALAIBLE;
+    private QuestStatus status = QuestStatus.AVAILABLE;
 
     // -----------------
 
