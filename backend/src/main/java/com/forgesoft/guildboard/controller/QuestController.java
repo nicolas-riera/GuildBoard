@@ -13,14 +13,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.forgesoft.guildboard.entity.Assignment;
 import com.forgesoft.guildboard.entity.Quest;
 import com.forgesoft.guildboard.enums.Difficulty;
 import com.forgesoft.guildboard.enums.QuestStatus;
 import com.forgesoft.guildboard.service.QuestService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping("/api/quests")

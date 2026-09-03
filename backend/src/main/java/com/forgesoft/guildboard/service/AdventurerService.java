@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.forgesoft.guildboard.entity.Adventurer;
 import com.forgesoft.guildboard.entity.Assignment;
+import com.forgesoft.guildboard.exception.ResourceNotFoundException;
 import com.forgesoft.guildboard.repository.AdventurerRepository;
 import com.forgesoft.guildboard.repository.AssignmentRepository;
 
@@ -25,7 +26,8 @@ public class AdventurerService {
     }
 
     public Adventurer getById(Long id) {
-        return adventurerRepository.findById(id).orElse(null);
+        return adventurerRepository.findById(id)
+            .orElseThrow (() -> new ResourceNotFoundException("Adventurer not found."));
     }
 
     public Adventurer create(Adventurer adventurer) {
