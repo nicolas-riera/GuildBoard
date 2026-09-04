@@ -1,5 +1,12 @@
 package com.forgesoft.guildboard.dto;
 
-public class AdventurerResponse {
-    
-}
+import com.forgesoft.guildboard.enums.CharacterClass;
+
+public record AdventurerResponse(
+        Long id,
+        String name,
+        CharacterClass characterClass,
+        int level,
+        int xp,
+        int gold
+) {}
