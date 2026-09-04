@@ -1,14 +1,11 @@
 package com.forgesoft.guildboard.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-
+import com.forgesoft.guildboard.dto.AdventurerResponse;
+import com.forgesoft.guildboard.dto.CreateAdventurerRequest;
 import com.forgesoft.guildboard.entity.Adventurer;
-import com.forgesoft.guildboard.entity.Assignment;
 import com.forgesoft.guildboard.service.AdventurerService;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/adventurers/")
+@RequestMapping("/api/adventurers")
 public class AdventurerController {
 
     private final AdventurerService service;
@@ -29,7 +30,7 @@ public class AdventurerController {
         this.service = service;
     }
 
-    @GetMapping("path")
+    @GetMapping
     public List<Adventurer> getAll() {
         return service.getAll();
     }
@@ -38,10 +39,11 @@ public class AdventurerController {
     public Adventurer getById(@PathVariable Long id) {
         return service.getById(id);
     }
-    
+
     @PostMapping
-    public ResponseEntity<Adventurer> create(@RequestBody Adventurer adventurer) {
-        return new ResponseEntity<>(service.create(adventurer), HttpStatus.CREATED);
+    public ResponseEntity<AdventurerResponse> create(
+            @Valid @RequestBody CreateAdventurerRequest request) {
+        return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -54,10 +56,4 @@ public class AdventurerController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-    @GetMapping("/{id}/history")
-    public List<Assignment> getHistory(@PathVariable Long id) {
-        return service.getHistory(id);
-    }
-    
 }

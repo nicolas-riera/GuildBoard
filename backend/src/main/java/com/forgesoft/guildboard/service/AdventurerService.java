@@ -1,53 +1,62 @@
 package com.forgesoft.guildboard.service;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
+import com.forgesoft.guildboard.dto.AdventurerResponse;
+import com.forgesoft.guildboard.dto.CreateAdventurerRequest;
 import com.forgesoft.guildboard.entity.Adventurer;
-import com.forgesoft.guildboard.entity.Assignment;
-import com.forgesoft.guildboard.exception.ResourceNotFoundException;
+import com.forgesoft.guildboard.mapper.AdventurerMapper;
 import com.forgesoft.guildboard.repository.AdventurerRepository;
-import com.forgesoft.guildboard.repository.AssignmentRepository;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class AdventurerService {
 
-    private final AdventurerRepository adventurerRepository;
-    private final AssignmentRepository assignmentRepository;
+    private final AdventurerRepository repository;
+    private final AdventurerMapper mapper;
 
-    public AdventurerService(AdventurerRepository adventurerRepository, AssignmentRepository assignmentRepository) {
-        this.adventurerRepository = adventurerRepository;
-        this.assignmentRepository = assignmentRepository;
+    public AdventurerService(AdventurerRepository repository, AdventurerMapper mapper) {
+        this.repository = repository;
+        this.mapper = mapper;
     }
 
+    @Transactional
+    public AdventurerResponse create(CreateAdventurerRequest request) {
+        if (repository.existsByName(request.name())) {
+            throw new IllegalStateException("Un aventurier porte déjà le nom " + request.name());
+        }
+        Adventurer saved = repository.save(mapper.toEntity(request));
+        return mapper.toResponse(saved);
+    }
+
+    @Transactional(readOnly = true)
     public List<Adventurer> getAll() {
-        return adventurerRepository.findAll();
+        return repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Adventurer getById(Long id) {
-        return adventurerRepository.findById(id)
-            .orElseThrow (() -> new ResourceNotFoundException("Adventurer not found."));
+        return repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Aventurier introuvable : " + id));
     }
 
-    public Adventurer create(Adventurer adventurer) {
-        return adventurerRepository.save(adventurer);
+    @Transactional
+    public Adventurer update(Long id, Adventurer adventurer) {
+        Adventurer existing = getById(id);
+        existing.setName(adventurer.getName());
+        existing.setCharacterClass(adventurer.getCharacterClass());
+        existing.setLevel(adventurer.getLevel());
+        existing.setXp(adventurer.getXp());
+        existing.setGold(adventurer.getGold());
+        return existing;
     }
 
-    public Adventurer update(Long id, Adventurer updated) {
-        Adventurer adventurer = getById(id);
-        adventurer.setName(updated.getName());
-        adventurer.setCharacterClass(updated.getCharacterClass());
-        return adventurerRepository.save(adventurer);
-    }
-
+    @Transactional
     public void delete(Long id) {
-        adventurerRepository.deleteById(id);
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException("Aventurier introuvable : " + id);
+        }
+        repository.deleteById(id);
     }
-
-    public List<Assignment> getHistory(Long id) {
-        getById(id); // Check if Adventurer exists
-        return assignmentRepository.findByAdventurerId(id);
-    }
-    
 }
