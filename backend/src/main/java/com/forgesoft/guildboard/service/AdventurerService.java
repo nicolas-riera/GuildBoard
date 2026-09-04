@@ -3,6 +3,8 @@ package com.forgesoft.guildboard.service;
 import com.forgesoft.guildboard.dto.AdventurerResponse;
 import com.forgesoft.guildboard.dto.CreateAdventurerRequest;
 import com.forgesoft.guildboard.entity.Adventurer;
+import com.forgesoft.guildboard.exception.BusinessRuleException;
+import com.forgesoft.guildboard.exception.ResourceNotFoundException;
 import com.forgesoft.guildboard.mapper.AdventurerMapper;
 import com.forgesoft.guildboard.repository.AdventurerRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +26,8 @@ public class AdventurerService {
     @Transactional
     public AdventurerResponse create(CreateAdventurerRequest request) {
         if (repository.existsByName(request.name())) {
-            throw new IllegalStateException("Un aventurier porte déjà le nom " + request.name());
+            throw new BusinessRuleException("NAME_ALREADY_TAKEN",
+                    "An adventurer named " + request.name() + " already exists");
         }
         Adventurer saved = repository.save(mapper.toEntity(request));
         return mapper.toResponse(saved);
@@ -38,7 +41,7 @@ public class AdventurerService {
     @Transactional(readOnly = true)
     public Adventurer getById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Aventurier introuvable : " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Adventurer not found: " + id));
     }
 
     @Transactional
@@ -55,7 +58,7 @@ public class AdventurerService {
     @Transactional
     public void delete(Long id) {
         if (!repository.existsById(id)) {
-            throw new IllegalArgumentException("Aventurier introuvable : " + id);
+            throw new ResourceNotFoundException("Adventurer not found: " + id);
         }
         repository.deleteById(id);
     }

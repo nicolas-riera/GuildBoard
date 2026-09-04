@@ -1,9 +1,11 @@
 package com.forgesoft.guildboard.controller;
 
 import com.forgesoft.guildboard.dto.AdventurerResponse;
+import com.forgesoft.guildboard.dto.AssignmentResponse;
 import com.forgesoft.guildboard.dto.CreateAdventurerRequest;
 import com.forgesoft.guildboard.entity.Adventurer;
 import com.forgesoft.guildboard.service.AdventurerService;
+import com.forgesoft.guildboard.service.AssignmentService;
 
 import jakarta.validation.Valid;
 
@@ -25,9 +27,11 @@ import java.util.List;
 public class AdventurerController {
 
     private final AdventurerService service;
+    private final AssignmentService assignmentService;
 
-    public AdventurerController(AdventurerService service) {
+    public AdventurerController(AdventurerService service, AssignmentService assignmentService) {
         this.service = service;
+        this.assignmentService = assignmentService;
     }
 
     @GetMapping
@@ -55,5 +59,10 @@ public class AdventurerController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/history")
+    public List<AssignmentResponse> getHistory(@PathVariable Long id) {
+        return assignmentService.getHistoryForAdventurer(id);
     }
 }
