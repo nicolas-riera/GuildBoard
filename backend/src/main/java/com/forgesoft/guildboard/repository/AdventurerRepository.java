@@ -3,4 +3,6 @@ package com.forgesoft.guildboard.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.forgesoft.guildboard.entity.Adventurer;
 
-public interface AdventurerRepository extends JpaRepository<Adventurer, Long> {}
+public interface AdventurerRepository extends JpaRepository<Adventurer, Long> {
+    boolean existsByName(String name);
+}
