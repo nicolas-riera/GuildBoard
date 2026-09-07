@@ -99,6 +99,7 @@ public class QuestService {
         Adventurer adventurer = adventurerRepository.findById(adventurerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Adventurer not found"));
 
+        // RG1 & RG2
         if (quest.getStatus() != QuestStatus.AVAILABLE) {
             throw new BusinessRuleException("QUEST_NOT_AVAILABLE", "Quest not available.");
         }
@@ -133,6 +134,7 @@ public class QuestService {
         adventurer.setGold(adventurer.getGold() + quest.getGoldReward());
         adventurer.setXp(adventurer.getXp() + quest.getXpReward());
 
+        // RG3
         while (adventurer.getXp() >= adventurer.getLevel() * 100) {
             adventurer.setXp(adventurer.getXp() - (adventurer.getLevel() * 100));
             adventurer.setLevel(adventurer.getLevel() + 1);
