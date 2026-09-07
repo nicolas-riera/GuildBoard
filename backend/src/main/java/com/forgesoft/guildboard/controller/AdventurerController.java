@@ -3,7 +3,7 @@ package com.forgesoft.guildboard.controller;
 import com.forgesoft.guildboard.dto.AdventurerResponse;
 import com.forgesoft.guildboard.dto.AssignmentResponse;
 import com.forgesoft.guildboard.dto.CreateAdventurerRequest;
-import com.forgesoft.guildboard.entity.Adventurer;
+import com.forgesoft.guildboard.dto.UpdateAdventurerRequest;
 import com.forgesoft.guildboard.service.AdventurerService;
 import com.forgesoft.guildboard.service.AssignmentService;
 
@@ -35,13 +35,13 @@ public class AdventurerController {
     }
 
     @GetMapping
-    public List<Adventurer> getAll() {
-        return service.getAll();
+    public ResponseEntity<List<AdventurerResponse>> getAll() {
+        return ResponseEntity.ok(service.getAll());
     }
 
     @GetMapping("/{id}")
-    public Adventurer getById(@PathVariable Long id) {
-        return service.getById(id);
+    public ResponseEntity<AdventurerResponse> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
     }
 
     @PostMapping
@@ -51,8 +51,10 @@ public class AdventurerController {
     }
 
     @PutMapping("/{id}")
-    public Adventurer update(@PathVariable Long id, @RequestBody Adventurer adventurer) {
-        return service.update(id, adventurer);
+    public ResponseEntity<AdventurerResponse> update(
+            @PathVariable Long id, 
+            @Valid @RequestBody UpdateAdventurerRequest request) {
+        return ResponseEntity.ok(service.update(id, request));
     }
 
     @DeleteMapping("/{id}")
@@ -62,7 +64,7 @@ public class AdventurerController {
     }
 
     @GetMapping("/{id}/history")
-    public List<AssignmentResponse> getHistory(@PathVariable Long id) {
-        return assignmentService.getHistoryForAdventurer(id);
+    public ResponseEntity<List<AssignmentResponse>> getHistory(@PathVariable Long id) {
+        return ResponseEntity.ok(assignmentService.getHistoryForAdventurer(id));
     }
 }

@@ -2,6 +2,7 @@ package com.forgesoft.guildboard.service;
 
 import com.forgesoft.guildboard.dto.AdventurerResponse;
 import com.forgesoft.guildboard.dto.CreateAdventurerRequest;
+import com.forgesoft.guildboard.dto.UpdateAdventurerRequest;
 import com.forgesoft.guildboard.entity.Adventurer;
 import com.forgesoft.guildboard.exception.BusinessRuleException;
 import com.forgesoft.guildboard.exception.ResourceNotFoundException;
@@ -34,30 +35,34 @@ public class AdventurerService {
     }
 
     @Transactional(readOnly = true)
-    public List<Adventurer> getAll() {
-        return repository.findAll();
+    public List<AdventurerResponse> getAll() {
+        return repository.findAll().stream()
+                .map(mapper::toResponse)
+                .toList();
     }
 
     @Transactional(readOnly = true)
-    public Adventurer getById(Long id) {
-        return repository.findById(id)
+    public AdventurerResponse getById(Long id) {
+        Adventurer adventurer = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Adventurer not found: " + id));
+        return mapper.toResponse(adventurer);
     }
 
     @Transactional
-    public Adventurer update(Long id, Adventurer adventurer) {
-        Adventurer existing = getById(id);
-        existing.setName(adventurer.getName());
-        existing.setCharacterClass(adventurer.getCharacterClass());
-        existing.setLevel(adventurer.getLevel());
-        existing.setXp(adventurer.getXp());
-        existing.setGold(adventurer.getGold());
-        return existing;
+    public AdventurerResponse update(Long id, UpdateAdventurerRequest request) {
+        Adventurer existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Adventurer not found: " + id));
+        existing.setName(request.name());
+        existing.setCharacterClass(request.characterClass());
+        existing.setLevel(request.level());
+        existing.setXp(request.xp());
+        existing.setGold(request.gold());
+        return mapper.toResponse(existing);
     }
 
     @Transactional
     public void delete(Long id) {
-        if (!repository.existsById(id)) { // Check if Adventurer exists
+        if (!repository.existsById(id)) {
             throw new ResourceNotFoundException("Adventurer not found: " + id);
         }
         repository.deleteById(id);
