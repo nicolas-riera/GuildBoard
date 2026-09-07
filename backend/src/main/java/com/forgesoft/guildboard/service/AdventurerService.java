@@ -57,7 +57,7 @@ public class AdventurerService {
 
     @Transactional
     public void delete(Long id) {
-        if (!repository.existsById(id)) {
+        if (!repository.existsById(id)) { // Check if Adventurer exists
             throw new ResourceNotFoundException("Adventurer not found: " + id);
         }
         repository.deleteById(id);
