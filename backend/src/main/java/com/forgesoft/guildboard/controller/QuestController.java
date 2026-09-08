@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.forgesoft.guildboard.dto.AssignmentResponse;
 import com.forgesoft.guildboard.dto.CreateQuestRequest;
-import com.forgesoft.guildboard.dto.QuestRequest;
+import com.forgesoft.guildboard.dto.UpdateQuestRequest;
+import com.forgesoft.guildboard.dto.QuestAssignmentRequest;
 import com.forgesoft.guildboard.dto.QuestResponse;
 import com.forgesoft.guildboard.enums.Difficulty;
 import com.forgesoft.guildboard.enums.QuestStatus;
@@ -51,7 +52,7 @@ public class QuestController {
     }
 
     @PutMapping("/{id}")
-    public QuestResponse update(@PathVariable Long id, @Valid @RequestBody CreateQuestRequest request) {
+    public QuestResponse update(@PathVariable Long id, @Valid @RequestBody UpdateQuestRequest request) {
         return service.update(id, request);
     }
 
@@ -63,7 +64,7 @@ public class QuestController {
 
     @PostMapping("/{id}/assignment")
     public ResponseEntity<AssignmentResponse> assign(@PathVariable Long id,
-        @Valid @RequestBody QuestRequest request) {
+        @Valid @RequestBody QuestAssignmentRequest request) {
         return new ResponseEntity<>(service.assignQuest(id, request.adventurerId()), HttpStatus.CREATED);
     }
 
