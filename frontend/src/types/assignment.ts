@@ -1,6 +1,6 @@
 import { Difficulty } from "../enums";
 
-export interface AssignementResponse {
+export interface AssignmentResponse {
     id : number; 
     questId : number;
     questTitle : string;
@@ -11,7 +11,7 @@ export interface AssignementResponse {
     completedAt : Date;
 }
 
-export interface CreateAssignementRequest{
+export interface CreateAssignmentRequest{
     adventurer : string;
     quest : string;
     assignedAt : Date ;
