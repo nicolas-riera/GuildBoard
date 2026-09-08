@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.forgesoft.guildboard.dto.AssignmentResponse;
 import com.forgesoft.guildboard.dto.CreateQuestRequest;
+import com.forgesoft.guildboard.dto.UpdateQuestRequest;
 import com.forgesoft.guildboard.dto.QuestResponse;
 import com.forgesoft.guildboard.entity.Adventurer;
 import com.forgesoft.guildboard.entity.Assignment;
@@ -70,10 +71,10 @@ public class QuestService {
     }
 
     @Transactional
-    public QuestResponse update(Long id, CreateQuestRequest request) {
+    public QuestResponse update(Long id, UpdateQuestRequest request) {
         Quest quest = getEntityById(id);
         if (quest.getStatus() != QuestStatus.AVAILABLE) {
-            throw new BusinessRuleException("EDIT_ON_GOING_QUEST", "You can't edit an on going quest.");
+            throw new BusinessRuleException("CANNOT_EDIT_QUEST", "Only available quests can be edited.");
         }
         quest.setTitle(request.title());
         quest.setDescription(request.description());
