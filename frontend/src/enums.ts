@@ -14,7 +14,7 @@ export const Difficulty = {
     EPIC : "EPIC"
 } as const;
 
-export type difficulty = (typeof Difficulty)[keyof typeof Difficulty];
+export type Difficulty = (typeof Difficulty)[keyof typeof Difficulty];
 
 export const QuestStatus = {
     AVAILABLE : "AVAILABLE",
