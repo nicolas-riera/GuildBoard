@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchApi } from "../services/api";
+import { getQuests } from "../services/QuestServices";
 
 type Quest = {
     id: number;
@@ -12,7 +12,7 @@ export default function Dashboard() {
     const [quests, setQuests] = useState<Quest[]>([]);
 
     useEffect(() => {
-        fetchApi<Quest[]>("/quests")
+        getQuests()
             .then(setQuests)
             .catch((err) => console.error(err));
     }, []);
