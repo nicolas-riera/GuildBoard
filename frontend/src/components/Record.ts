@@ -1,4 +1,4 @@
-import { Difficulty, QuestStatus } from "./enums";
+import { CharacterClass, Difficulty, QuestStatus } from "./enums";
 
 export const DIFFICULTY_LABEL: Record<Difficulty, string> = {
     [Difficulty.EASY]: "Easy",
@@ -25,3 +25,10 @@ export const STATUS_LABEL: Record<QuestStatus, string> = {
 };
 
 export type STATUS_LABEL = typeof STATUS_LABEL[keyof typeof STATUS_LABEL]
+
+export const CLASS_LABEL: Record<CharacterClass, string> = {
+    [CharacterClass.WARRIOR]: "Warrior",
+    [CharacterClass.RANGER]: "Ranger",
+    [CharacterClass.MAGE]: "Mage",
+    [CharacterClass.CLERIC]: "Cleric",
+};

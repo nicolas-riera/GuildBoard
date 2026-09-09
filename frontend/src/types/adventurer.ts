@@ -3,7 +3,7 @@ import { CharacterClass } from "../components/enums";
 export interface AdventurerResponse{
     id : number; 
     name : string;
-    CharacterClass : CharacterClass;
+    characterClass : CharacterClass;
     level : number;
     xp : number;
     gold : number;
@@ -11,7 +11,7 @@ export interface AdventurerResponse{
 
 export interface UpdateAdventurerRequest{
     name : string;
-    CharacterClass : CharacterClass;
+    characterClass : CharacterClass;
     level : number;
     xp : number;
     gold : number;
@@ -19,6 +19,6 @@ export interface UpdateAdventurerRequest{
 
 export interface CreateAdventurerRequest{
     name : string;
-    CharacterClass : CharacterClass;
+    characterClass : CharacterClass;
 }
 

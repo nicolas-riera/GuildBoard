@@ -15,14 +15,14 @@ export async function getQuests(): Promise<QuestResponse[]> {
     return fetchApi<QuestResponse[]>("/quests")
 }
 
-export async function getQuestById(id: number): Promise<QuestResponse[]> {
-    return fetchApi<QuestResponse[]>(`/quests/${id}`)
+export async function getQuestById(id: number): Promise<QuestResponse> {
+    return fetchApi<QuestResponse>(`/quests/${id}`)
 }
 
 export async function createQuest(
     data : CreateQuestRequest
-): Promise<QuestResponse[]> {
-    return fetchApi("/quests", {
+): Promise<QuestResponse> {
+    return fetchApi<QuestResponse>("/quests", {
         method: "POST",
         body: JSON.stringify(data)
     })
@@ -44,8 +44,8 @@ export async function deleteQuest(id: number): Promise<void> {
   });
 }
 
-export async function completeQuest(id: number): Promise<QuestResponse> {
-  return fetchApi<QuestResponse>(`/quests/${id}/completion`, {
+export async function completeQuest(id: number): Promise<AssignmentResponse> {
+  return fetchApi<AssignmentResponse>(`/quests/${id}/completion`, {
     method: 'POST',
   });
 }
