@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { deleteQuest, getQuestById } from "../services/QuestServices";
 import type { QuestResponse } from "../types/quest";
@@ -128,6 +128,9 @@ export default function QuestDetails() {
                     </div>
 
                     <div className="quest-detail__footer">
+                        <Link to={ROUTES.dashboard} className="btn">
+                                            Back to the board
+                        </Link>
                         <button
                             type="button"
                             className="btn"
