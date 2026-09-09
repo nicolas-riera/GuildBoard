@@ -552,6 +552,10 @@ tbody td {
   flex-direction: column;
 }
 
+.modal:focus {
+  outline: none;
+}
+
 .modal::backdrop {
   background-color: rgba(20, 13, 7, 0.55);
 }
@@ -610,15 +614,60 @@ tbody td {
   gap: 10px;
 }
 
+.adventurer-list__item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .adventurer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
   padding: 10px 16px;
+  color: var(--ink);
   background-color: var(--btn-bg);
   border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.adventurer:hover:not(:disabled) {
+  filter: brightness(0.96);
+}
+
+.adventurer:active:not(:disabled) {
+  filter: brightness(0.92);
+}
+
+.adventurer:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.adventurer__state {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.adventurer__busy {
+  margin: 0 0 0 16px;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+.modal__error {
+  margin: 0 0 12px;
+  color: var(--danger-bg);
+  font-style: italic;
 }
 
 .adventurer__name {

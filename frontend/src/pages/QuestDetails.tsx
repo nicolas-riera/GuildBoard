@@ -23,8 +23,14 @@ export default function QuestDetails() {
     const [actionError, setActionError] = useState<string | null>(null);
     const [deleting, setDeleting] = useState(false);
     const [adventurersOpen, setAdventurersOpen] = useState(false);
+    const [reloadToken, setReloadToken] = useState(0);
 
     const closeAdventurers = useCallback(() => setAdventurersOpen(false), []);
+
+    const handleAssigned = useCallback(() => {
+        setAdventurersOpen(false);
+        setReloadToken((token) => token + 1);
+    }, []);
 
     useEffect(() => {
         if (Number.isNaN(questId)) return;
@@ -42,7 +48,7 @@ export default function QuestDetails() {
         return () => {
             cancelled = true;
         };
-    }, [questId]);
+    }, [questId, reloadToken]);
 
     const loaded = result?.questId === questId ? result : null;
     const loading = loaded === null;
@@ -151,7 +157,9 @@ export default function QuestDetails() {
 
                     {adventurersOpen && (
                         <AdventurersModal
+                            questId={quest.id}
                             requiredLevel={quest.requiredLevel}
+                            onAssigned={handleAssigned}
                             onClose={closeAdventurers}
                         />
                     )}

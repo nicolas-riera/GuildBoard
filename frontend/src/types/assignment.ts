@@ -7,8 +7,8 @@ export interface AssignmentResponse {
     questDifficulty : Difficulty;
     xpReward : number;
     goldReward : number;
-    assignedAt : Date;
-    completedAt : Date;
+    assignedAt : string;
+    completedAt : string | null;
 }
 
 export interface CreateAssignmentRequest{
