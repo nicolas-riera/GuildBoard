@@ -1,6 +1,4 @@
-import { Difficulty } from "../enums";
-
-import { QuestStatus } from "../enums";
+import { Difficulty, QuestStatus } from "../components/enums";
 
 export interface QuestResponse{
     id : number;

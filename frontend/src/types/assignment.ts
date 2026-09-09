@@ -1,4 +1,4 @@
-import { Difficulty } from "../enums";
+import { Difficulty } from "../components/enums";
 
 export interface AssignmentResponse {
     id : number; 

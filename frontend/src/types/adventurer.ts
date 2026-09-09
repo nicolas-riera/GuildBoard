@@ -1,4 +1,4 @@
-import { CharacterClass } from "../enums";
+import { CharacterClass } from "../components/enums";
 
 export interface AdventurerResponse{
     id : number; 

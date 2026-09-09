@@ -1,27 +1,8 @@
 import { getQuests } from "../services/QuestServices";
 import { useEffect, useMemo, useState } from "react";
-import { Difficulty, QuestStatus } from "../enums";
+import { Difficulty, QuestStatus } from "../components/enums";
 import type { QuestResponse } from "../types/quest";
-
-const DIFFICULTY_LABEL: Record<Difficulty, string> = {
-    [Difficulty.EASY]: "Easy",
-    [Difficulty.MEDIUM]: "Medium",
-    [Difficulty.HARD]: "Hard",
-    [Difficulty.EPIC]: "Epic",
-};
-
-const DIFFICULTY_BADGE: Record<Difficulty, string> = {
-    [Difficulty.EASY]: "badge--easy",
-    [Difficulty.MEDIUM]: "badge--medium",
-    [Difficulty.HARD]: "badge--hard",
-    [Difficulty.EPIC]: "badge--epic",
-};
-
-const STATUS_LABEL: Record<QuestStatus, string> = {
-    [QuestStatus.AVAILABLE]: "Available",
-    [QuestStatus.ON_GOING]: "On going",
-    [QuestStatus.COMPLETED]: "Completed",
-};
+import { DIFFICULTY_LABEL, DIFFICULTY_BADGE, STATUS_LABEL } from "../components/Record";
 
 type StatusFilter = QuestStatus | "ALL";
 type DifficultyFilter = Difficulty | "ALL";
