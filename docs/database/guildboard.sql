@@ -247,6 +247,16 @@ COPY public."Quest" (id, title, description, difficulty, "requiredLevel", "goldR
 14	The colossus of Jötunheimr	A towering frost giant has carved out a stronghold among the jagged peaks of Jötunheimr, threatening the mountain crossings. Brave the biting blizzards, strike down the chieftain in his icy courtyard, and break his clan's grip on the passes once and for all.	HARD	23	1118	2236	AVAILABLE
 15	Trench vermin	The molten scorpions nesting in the lower trenches already slaughtered a rookie militia squad and reduced a nearby farming hamlet to cinders. What was an absolute massacre for low-level greenhorns is routine pest control for an experienced veteran. Head down into the charred ditch, stomp out half a dozen of the beasts, and clear the perimeter before they creep toward the main vanguard camp.	EASY	60	660	1320	AVAILABLE
 16	Slayer's intern	A green-armored terror has plunged straight into Hell, ripping and tearing through demon legions with a smoking double-barreled shotgun. You are merely his frantic intern. Dodge raining gore, haul his heavy ammo crates, and survive the burning abyss by staying locked in the Doom Slayer's bloody wake.	EPIC	15	1101	2202	AVAILABLE
+17	Clear the cellar	Giant rats have infested the tavern cellar, chewing through food crates and threatening the barkeep. Head down with a torch, clear out the nest, and make the basement safe for storage once again.	EASY	1	10	19	AVAILABLE
+18	Delivering supplies	The local blacksmith needs a bag of iron rivets delivered to the watchtower down the road. It is a quick walk, but keep your eyes open for hungry stray dogs along the path.	EASY	1	10	19	AVAILABLE
+19	Chase the crows	Frightening crows are ruining the farmer barley harvest. Walk through the fields, bang on a wooden shield to scatter the flock, and destroy two of their nests in the tree line.	EASY	1	10	19	AVAILABLE
+20	Lost wedding ring	A careless villager dropped a brass ring somewhere in the shallow duck pond. Wade into the mud, sift through the reeds, and return the keepsake to its owner.	EASY	1	10	19	AVAILABLE
+21	Gather wild berries	The alchemist apprentice needs fresh bitterberries to brew basic healing salves. Search the bushes near the treeline and pick a handful before the sun sets.	EASY	1	10	19	AVAILABLE
+22	Goblin scout patrol	A lone goblin scout has been spotted spying on the outskirts of the hamlet. Track his footprints into the brush, defeat him before he alerts his camp, and bring back his crude dagger.	EASY	2	16	31	AVAILABLE
+23	Stolen tools	A mischievous thief snatched a woodcutter ax and ran into the hills. Follow the tracks, reclaim the stolen iron tool, and return it to the logging camp.	EASY	2	16	31	AVAILABLE
+24	Clear the well	The village water well is blocked by a cluster of giant cavern spiders. Climb down the rope, clear out the webs, and exterminate the nest so locals can draw clean water.	EASY	2	16	31	AVAILABLE
+25	Frightened livestock	Three sheep escaped their pen after a thunderstorm and wandered toward the ravine. Locate the stray animals and guide them back safely to the farmstead.	EASY	2	16	31	AVAILABLE
+26	Light the beacons	Night is falling and the watchtower braziers along the perimeter road need to be lit. Take a burning brand, run along the wall line, and kindle all three signal fires.	EASY	2	16	31	AVAILABLE
 \.
 
 
