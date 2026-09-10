@@ -32,3 +32,23 @@ export const CLASS_LABEL: Record<CharacterClass, string> = {
     [CharacterClass.MAGE]: "Mage",
     [CharacterClass.CLERIC]: "Cleric",
 };
+
+export const DIFFICULTY_ORDER: Record<Difficulty, number> = {
+    [Difficulty.EASY]: 0,
+    [Difficulty.MEDIUM]: 1,
+    [Difficulty.HARD]: 2,
+    [Difficulty.EPIC]: 3,
+};
+
+export const STATUS_ORDER: Record<QuestStatus, number> = {
+    [QuestStatus.AVAILABLE]: 0,
+    [QuestStatus.ON_GOING]: 1,
+    [QuestStatus.COMPLETED]: 2,
+};
+
+export const DIFFICULTY_REWARD_RATIO: Record<Difficulty, number> = {
+    [Difficulty.EASY]: 0.2,
+    [Difficulty.MEDIUM]: 0.5,
+    [Difficulty.HARD]: 0.9,
+    [Difficulty.EPIC]: 1.5,
+};

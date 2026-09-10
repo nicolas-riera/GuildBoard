@@ -3,17 +3,69 @@ import { Link } from "react-router-dom";
 import { getQuests } from "../services/QuestServices";
 import { Difficulty, QuestStatus } from "../components/enums";
 import type { QuestResponse } from "../types/quest";
-import { DIFFICULTY_LABEL, DIFFICULTY_BADGE, STATUS_LABEL } from "../components/Record";
-import { questDetailsPath } from "../routes";
+import {
+    DIFFICULTY_LABEL,
+    DIFFICULTY_BADGE,
+    DIFFICULTY_ORDER,
+    STATUS_LABEL,
+    STATUS_ORDER,
+} from "../components/Record";
+import { ROUTES, questDetailsPath } from "../routes";
 
 type StatusFilter = QuestStatus | "ALL";
 type DifficultyFilter = Difficulty | "ALL";
+type LevelMode = "MIN" | "MAX";
+
+type SortKey = "title" | "difficulty" | "gold" | "level" | "status";
+type SortDirection = "asc" | "desc";
+interface Sort {
+    key: SortKey;
+    direction: SortDirection;
+}
+
+const SORT_COMPARE: Record<SortKey, (a: QuestResponse, b: QuestResponse) => number> = {
+    title: (a, b) => a.title.localeCompare(b.title),
+    difficulty: (a, b) => DIFFICULTY_ORDER[a.difficulty] - DIFFICULTY_ORDER[b.difficulty],
+    gold: (a, b) => a.goldReward - b.goldReward,
+    level: (a, b) => a.requiredLevel - b.requiredLevel,
+    status: (a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status],
+};
+
+interface SortableHeaderProps {
+    label: string;
+    sortKey: SortKey;
+    sort: Sort | null;
+    onSort: (key: SortKey) => void;
+}
+
+function SortableHeader({ label, sortKey, sort, onSort }: SortableHeaderProps) {
+    const direction = sort !== null && sort.key === sortKey ? sort.direction : null;
+
+    return (
+        <th aria-sort={direction === null ? "none" : direction === "asc" ? "ascending" : "descending"}>
+            <button
+                type="button"
+                className="th-sort"
+                onClick={() => onSort(sortKey)}
+                title={`Sort by ${label.toLowerCase()}`}
+            >
+                {label}
+                <span className="th-sort__arrow" aria-hidden="true">
+                    {direction === null ? "⇅" : direction === "asc" ? "▲" : "▼"}
+                </span>
+            </button>
+        </th>
+    );
+}
 
 export default function Dashboard() {
     const [quests, setQuests] = useState<QuestResponse[]>([]);
     const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
     const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>("ALL");
-    const [minLevel, setMinLevel] = useState(1);
+    const [levelMode, setLevelMode] = useState<LevelMode>("MIN");
+    const [level, setLevel] = useState(1);
+    const [search, setSearch] = useState("");
+    const [sort, setSort] = useState<Sort | null>(null);
     const [loadError, setLoadError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -25,18 +77,48 @@ export default function Dashboard() {
             .catch((err: Error) => setLoadError(err.message));
     }, []);
 
-    const filteredQuests = useMemo(() => {
-        return quests.filter((quest) => {
+    const visibleQuests = useMemo(() => {
+        const needle = search.trim().toLowerCase();
+
+        const filtered = quests.filter((quest) => {
+            if (quest.status === QuestStatus.COMPLETED) return false;
             if (statusFilter !== "ALL" && quest.status !== statusFilter) return false;
             if (difficultyFilter !== "ALL" && quest.difficulty !== difficultyFilter) return false;
-            if (quest.requiredLevel < minLevel) return false;
+            if (levelMode === "MIN" && quest.requiredLevel < level) return false;
+            if (levelMode === "MAX" && quest.requiredLevel > level) return false;
+            if (needle !== "" && !quest.title.toLowerCase().includes(needle)) return false;
             return true;
         });
-    }, [quests, statusFilter, difficultyFilter, minLevel]);
+
+        if (sort === null) return filtered;
+
+        const compare = SORT_COMPARE[sort.key];
+        const way = sort.direction === "asc" ? 1 : -1;
+        return [...filtered].sort((a, b) => compare(a, b) * way);
+    }, [quests, statusFilter, difficultyFilter, levelMode, level, search, sort]);
+
+    function toggleSort(key: SortKey) {
+        setSort((current) =>
+            current !== null && current.key === key
+                ? { key, direction: current.direction === "asc" ? "desc" : "asc" }
+                : { key, direction: "asc" }
+        );
+    }
 
     return (
         <div className="layout">
             <aside className="sidebar">
+                <div className="filter">
+                    <label htmlFor="quest-search">Search</label>
+                    <input
+                        id="quest-search"
+                        type="search"
+                        placeholder="Quest title"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </div>
+
                 <div className="filter">
                     <label htmlFor="status-filter">Status</label>
                     <select
@@ -47,7 +129,6 @@ export default function Dashboard() {
                         <option value="ALL">All</option>
                         <option value={QuestStatus.AVAILABLE}>Available</option>
                         <option value={QuestStatus.ON_GOING}>On going</option>
-                        <option value={QuestStatus.COMPLETED}>Completed</option>
                     </select>
                 </div>
 
@@ -68,12 +149,21 @@ export default function Dashboard() {
 
                 <div className="filter">
                     <label htmlFor="level-filter">Required level</label>
+                    <select
+                        id="level-mode"
+                        aria-label="Required level comparison"
+                        value={levelMode}
+                        onChange={(e) => setLevelMode(e.target.value as LevelMode)}
+                    >
+                        <option value="MIN">At least</option>
+                        <option value="MAX">At most</option>
+                    </select>
                     <input
                         id="level-filter"
                         type="number"
                         min={1}
-                        value={minLevel}
-                        onChange={(e) => setMinLevel(Math.max(1, Number(e.target.value) || 1))}
+                        value={level}
+                        onChange={(e) => setLevel(Math.max(1, Number(e.target.value) || 1))}
                     />
                 </div>
             </aside>
@@ -85,16 +175,16 @@ export default function Dashboard() {
                     <table>
                         <thead>
                             <tr>
-                                <th>Title</th>
-                                <th>Difficulty</th>
-                                <th>Reward</th>
-                                <th>LVL</th>
-                                <th>Status</th>
+                                <SortableHeader label="Title" sortKey="title" sort={sort} onSort={toggleSort} />
+                                <SortableHeader label="Difficulty" sortKey="difficulty" sort={sort} onSort={toggleSort} />
+                                <SortableHeader label="Reward" sortKey="gold" sort={sort} onSort={toggleSort} />
+                                <SortableHeader label="LVL" sortKey="level" sort={sort} onSort={toggleSort} />
+                                <SortableHeader label="Status" sortKey="status" sort={sort} onSort={toggleSort} />
                                 <th aria-hidden="true"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            {filteredQuests.map((quest) => (
+                            {visibleQuests.map((quest) => (
                                 <tr key={quest.id}>
                                     <td>{quest.title}</td>
                                     <td>
@@ -118,7 +208,7 @@ export default function Dashboard() {
                                     </td>
                                 </tr>
                             ))}
-                            {filteredQuests.length === 0 && (
+                            {visibleQuests.length === 0 && (
                                 <tr>
                                     <td colSpan={6} className="empty-row">
                                         {loadError ?? "No quests match these filters."}
@@ -130,7 +220,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className="card-list">
-                    {filteredQuests.map((quest) => (
+                    {visibleQuests.map((quest) => (
                         <div key={quest.id} className="quest-card">
                             <div className="quest-card__left">
                                 <span className="quest-card__title">{quest.title}</span>
@@ -152,15 +242,15 @@ export default function Dashboard() {
                             </div>
                         </div>
                     ))}
-                    {filteredQuests.length === 0 && (
+                    {visibleQuests.length === 0 && (
                         <div className="empty-row">{loadError ?? "No quests match these filters."}</div>
                     )}
                 </div>
 
                 <div className="action-bar">
-                    <button type="button" className="btn btn--action">
+                    <Link to={ROUTES.newQuest} className="btn btn--action">
                         Add an Quest
-                    </button>
+                    </Link>
                 </div>
             </main>
         </div>

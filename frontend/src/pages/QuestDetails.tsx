@@ -6,7 +6,9 @@ import type { QuestResponse } from "../types/quest";
 import { DIFFICULTY_LABEL, DIFFICULTY_BADGE, STATUS_LABEL } from "../components/Record";
 import { QuestStatus } from "../components/enums";
 import AdventurersModal from "../components/AdventurersModal";
-import { ROUTES } from "../routes";
+import CompleteQuestModal from "../components/CompleteQuestModal";
+import ConfirmModal from "../components/ConfirmModal";
+import { ROUTES, questEditPath } from "../routes";
 
 interface LoadResult {
     questId: number;
@@ -20,15 +22,22 @@ export default function QuestDetails() {
     const questId = Number(id);
 
     const [result, setResult] = useState<LoadResult | null>(null);
-    const [actionError, setActionError] = useState<string | null>(null);
-    const [deleting, setDeleting] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
     const [adventurersOpen, setAdventurersOpen] = useState(false);
+    const [completeOpen, setCompleteOpen] = useState(false);
     const [reloadToken, setReloadToken] = useState(0);
 
     const closeAdventurers = useCallback(() => setAdventurersOpen(false), []);
+    const closeComplete = useCallback(() => setCompleteOpen(false), []);
+    const closeDelete = useCallback(() => setDeleteOpen(false), []);
 
     const handleAssigned = useCallback(() => {
         setAdventurersOpen(false);
+        setReloadToken((token) => token + 1);
+    }, []);
+
+    const handleCompleted = useCallback(() => {
+        setCompleteOpen(false);
         setReloadToken((token) => token + 1);
     }, []);
 
@@ -53,22 +62,20 @@ export default function QuestDetails() {
     const loaded = result?.questId === questId ? result : null;
     const loading = loaded === null;
     const quest = loaded?.quest ?? null;
-    const error = loaded?.error ?? actionError;
+    const error = loaded?.error ?? null;
+
+    // an available quest gets handed out, an on going one gets closed
+    const statusAction =
+        quest?.status === QuestStatus.AVAILABLE
+            ? () => setAdventurersOpen(true)
+            : quest?.status === QuestStatus.ON_GOING
+              ? () => setCompleteOpen(true)
+              : null;
 
     async function handleDelete() {
-        if (!quest || deleting) return;
-        if (!window.confirm(`Delete the quest "${quest.title}" ?`)) return;
-
-        setDeleting(true);
-        setActionError(null);
-        try {
-            await deleteQuest(quest.id);
-            navigate(ROUTES.dashboard);
-        } catch (err) {
-            setActionError((err as Error).message);
-        } finally {
-            setDeleting(false);
-        }
+        if (!quest) return;
+        await deleteQuest(quest.id);
+        navigate(ROUTES.dashboard);
     }
 
     return (
@@ -114,11 +121,11 @@ export default function QuestDetails() {
                     </div>
 
                     <div className="quest-detail__row">
-                        {quest.status === QuestStatus.AVAILABLE ? (
+                        {statusAction !== null ? (
                             <button
                                 type="button"
                                 className="quest-detail__status quest-detail__status--action"
-                                onClick={() => setAdventurersOpen(true)}
+                                onClick={statusAction}
                             >
                                 {STATUS_LABEL[quest.status]}
                             </button>
@@ -131,31 +138,34 @@ export default function QuestDetails() {
                         <Link to={ROUTES.dashboard} className="btn">
                                             Back to the board
                         </Link>
-                        <button
-                            type="button"
-                            className="btn"
-                            onClick={() => navigate(`/quests/${quest.id}/edit`)}
-                        >
-                            Modify
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn--icon btn--danger"
-                            onClick={handleDelete}
-                            disabled={deleting}
-                            title="Delete this quest"
-                            aria-label={`Delete the quest ${quest.title}`}
-                        >
-                            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-                                <circle cx="12" cy="12" r="10" fill="currentColor" />
-                                <path
-                                    d="M8.5 8.5l7 7M15.5 8.5l-7 7"
-                                    stroke="var(--btn-bg)"
-                                    strokeWidth="2.4"
-                                    strokeLinecap="round"
-                                />
-                            </svg>
-                        </button>
+                        {quest.status !== QuestStatus.ON_GOING && (
+                            <button
+                                type="button"
+                                className="btn"
+                                onClick={() => navigate(questEditPath(quest.id))}
+                            >
+                                Modify
+                            </button>
+                        )}
+                        {quest.status === QuestStatus.AVAILABLE && (
+                            <button
+                                type="button"
+                                className="btn btn--icon btn--danger"
+                                onClick={() => setDeleteOpen(true)}
+                                title="Delete this quest"
+                                aria-label={`Delete the quest ${quest.title}`}
+                            >
+                                <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="10" fill="currentColor" />
+                                    <path
+                                        d="M8.5 8.5l7 7M15.5 8.5l-7 7"
+                                        stroke="var(--btn-bg)"
+                                        strokeWidth="2.4"
+                                        strokeLinecap="round"
+                                    />
+                                </svg>
+                            </button>
+                        )}
                     </div>
 
                     {adventurersOpen && (
@@ -164,6 +174,25 @@ export default function QuestDetails() {
                             requiredLevel={quest.requiredLevel}
                             onAssigned={handleAssigned}
                             onClose={closeAdventurers}
+                        />
+                    )}
+
+                    {completeOpen && (
+                        <CompleteQuestModal
+                            questId={quest.id}
+                            onCompleted={handleCompleted}
+                            onClose={closeComplete}
+                        />
+                    )}
+
+                    {deleteOpen && (
+                        <ConfirmModal
+                            title="Delete the quest"
+                            message={<>The quest <strong>{quest.title}</strong> will be removed for good.</>}
+                            question="Do you really want to delete it?"
+                            pendingLabel="Deleting..."
+                            onConfirm={handleDelete}
+                            onClose={closeDelete}
                         />
                     )}
                 </>

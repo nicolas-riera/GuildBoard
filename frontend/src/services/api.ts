@@ -19,12 +19,11 @@ export async function fetchApi<T>(endpoint: string, options?: RequestInit): Prom
         errorMessage = errorData.message;
       }
     } catch {
-        // if response aren't json formatted
     }
     throw new Error(errorMessage);
   }
 
-  // For requests that doesn't send reponses
+  
   if (response.status === 204) {
     return {} as T;
   }

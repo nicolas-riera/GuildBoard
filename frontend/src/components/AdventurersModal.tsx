@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import type { MouseEvent } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { getAdventurers, getAdventurerHistory } from "../services/adventurerServices";
 import { assignQuest } from "../services/QuestServices";
 import type { AdventurerResponse } from "../types/adventurer";
+import Modal from "./Modal";
 import { CLASS_LABEL } from "./Record";
 
 interface Candidate {
@@ -24,29 +24,11 @@ export default function AdventurersModal({
     onAssigned,
     onClose,
 }: AdventurersModalProps) {
-    const dialogRef = useRef<HTMLDialogElement>(null);
-
     const [candidates, setCandidates] = useState<Candidate[] | null>(null);
     const [loadError, setLoadError] = useState<string | null>(null);
     const [assigningId, setAssigningId] = useState<number | null>(null);
     const [assignError, setAssignError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const dialog = dialogRef.current;
-        if (!dialog) return;
-
-        if (!dialog.open) {
-            dialog.showModal();
-            // showModal() lands on the first focusable child (the close button); hold the
-            // dialog itself instead so nothing looks pre-selected
-            dialog.focus();
-        }
-        dialog.addEventListener("close", onClose);
-
-        return () => {
-            dialog.removeEventListener("close", onClose);
-        };
-    }, [onClose]);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         let cancelled = false;
@@ -56,7 +38,6 @@ export default function AdventurersModal({
                 (adventurer) => adventurer.level >= requiredLevel
             );
 
-            // an assignment without a completedAt means the adventurer is still out on that quest
             const histories = await Promise.all(
                 eligible.map((adventurer) => getAdventurerHistory(adventurer.id).catch(() => null))
             );
@@ -84,6 +65,14 @@ export default function AdventurersModal({
 
     const loading = candidates === null && loadError === null;
 
+    const visible = useMemo(() => {
+        const needle = search.trim().toLowerCase();
+        if (needle === "") return candidates ?? [];
+        return (candidates ?? []).filter(({ adventurer }) =>
+            adventurer.name.toLowerCase().includes(needle)
+        );
+    }, [candidates, search]);
+
     async function handleAssign(adventurerId: number) {
         if (assigningId !== null) return;
 
@@ -98,35 +87,21 @@ export default function AdventurersModal({
         }
     }
 
-    function handleBackdropClick(event: MouseEvent<HTMLDialogElement>) {
-        if (event.target === dialogRef.current) dialogRef.current?.close();
-    }
-
     return (
-        <dialog
-            ref={dialogRef}
-            className="modal"
-            tabIndex={-1}
-            aria-labelledby="adventurers-modal-title"
-            onClick={handleBackdropClick}
-        >
-            <header className="modal__header">
-                <h2 id="adventurers-modal-title" className="modal__title">
-                    Adventurers
-                </h2>
-                <button
-                    type="button"
-                    className="modal__close"
-                    onClick={() => dialogRef.current?.close()}
-                    aria-label="Close"
-                >
-                    &times;
-                </button>
-            </header>
-
+        <Modal title="Adventurers" onClose={onClose}>
             <p className="modal__subtitle">
                 Pick an adventurer of level {requiredLevel} or above
             </p>
+
+            <div className="modal__search">
+                <input
+                    type="search"
+                    placeholder="Search by name"
+                    aria-label="Search an adventurer by name"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
 
             <div className="modal__body">
                 {assignError && <p className="modal__error">{assignError}</p>}
@@ -141,9 +116,13 @@ export default function AdventurersModal({
                     </p>
                 )}
 
-                {candidates !== null && candidates.length > 0 && (
+                {candidates !== null && candidates.length > 0 && visible.length === 0 && (
+                    <p className="empty-row">No adventurer matches this name.</p>
+                )}
+
+                {visible.length > 0 && (
                     <ul className="adventurer-list">
-                        {candidates.map(({ adventurer, onGoingQuest }) => (
+                        {visible.map(({ adventurer, onGoingQuest }) => (
                             <li key={adventurer.id} className="adventurer-list__item">
                                 <button
                                     type="button"
@@ -176,6 +155,6 @@ export default function AdventurersModal({
                     </ul>
                 )}
             </div>
-        </dialog>
+        </Modal>
     );
 }
