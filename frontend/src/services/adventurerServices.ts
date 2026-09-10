@@ -46,6 +46,40 @@ export async function getAdventurerHistory(
   return fetchApi<AssignmentResponse[]>(`/adventurers/${id}/history`);
 }
 
+export interface QuestAssignment {
+  adventurer: AdventurerResponse;
+  assignment: AssignmentResponse;
+}
+
+export async function findQuestAssignment(
+  questId: number
+): Promise<QuestAssignment | null> {
+  const adventurers = await getAdventurers();
+  const histories = await Promise.all(
+    adventurers.map((adventurer) => getAdventurerHistory(adventurer.id).catch(() => []))
+  );
+
+  let latest: QuestAssignment | null = null;
+
+  for (const [index, history] of histories.entries()) {
+    for (const assignment of history) {
+      if (assignment.questId !== questId) continue;
+      if (assignment.completedAt === null) {
+        return { adventurer: adventurers[index], assignment };
+      }
+      if (
+        latest === null ||
+        new Date(assignment.completedAt).getTime() >
+          new Date(latest.assignment.completedAt ?? 0).getTime()
+      ) {
+        latest = { adventurer: adventurers[index], assignment };
+      }
+    }
+  }
+
+  return latest;
+}
+
 export async function getOnGoingQuests(
   adventurers: AdventurerResponse[]
 ): Promise<Map<number, string>> {

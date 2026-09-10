@@ -2,13 +2,16 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
 import { deleteQuest, getQuestById } from "../services/QuestServices";
+import { findQuestAssignment } from "../services/adventurerServices";
+import type { QuestAssignment } from "../services/adventurerServices";
 import type { QuestResponse } from "../types/quest";
 import { DIFFICULTY_LABEL, DIFFICULTY_BADGE, STATUS_LABEL } from "../components/Record";
 import { QuestStatus } from "../components/enums";
 import AdventurersModal from "../components/AdventurersModal";
 import CompleteQuestModal from "../components/CompleteQuestModal";
 import ConfirmModal from "../components/ConfirmModal";
-import { ROUTES, questEditPath } from "../routes";
+import { formatDateTime, formatDuration } from "../components/format";
+import { ROUTES, adventurerDetailsPath, questEditPath } from "../routes";
 
 interface LoadResult {
     questId: number;
@@ -22,6 +25,7 @@ export default function QuestDetails() {
     const questId = Number(id);
 
     const [result, setResult] = useState<LoadResult | null>(null);
+    const [assignment, setAssignment] = useState<QuestAssignment | null>(null);
     const [deleteOpen, setDeleteOpen] = useState(false);
     const [adventurersOpen, setAdventurersOpen] = useState(false);
     const [completeOpen, setCompleteOpen] = useState(false);
@@ -63,6 +67,29 @@ export default function QuestDetails() {
     const loading = loaded === null;
     const quest = loaded?.quest ?? null;
     const error = loaded?.error ?? null;
+
+    useEffect(() => {
+        if (quest === null || quest.status === QuestStatus.AVAILABLE) return;
+
+        let cancelled = false;
+
+        findQuestAssignment(quest.id)
+            .then((found) => {
+                if (!cancelled && found !== null) setAssignment(found);
+            })
+            .catch(() => undefined);
+
+        return () => {
+            cancelled = true;
+        };
+    }, [quest]);
+
+    const questAssignment =
+        quest !== null
+        && quest.status !== QuestStatus.AVAILABLE
+        && assignment?.assignment.questId === quest.id
+            ? assignment
+            : null;
 
     // an available quest gets handed out, an on going one gets closed
     const statusAction =
@@ -120,6 +147,39 @@ export default function QuestDetails() {
                         </span>
                     </div>
 
+                    {questAssignment !== null && (
+                        <div className="quest-detail__assignment">
+                            <span className="quest-detail__assignment-line">
+                                {questAssignment.assignment.completedAt === null ? "Taken by " : "Completed by "}
+                                <Link
+                                    to={adventurerDetailsPath(questAssignment.adventurer.id)}
+                                    className="quest-detail__adventurer"
+                                >
+                                    {questAssignment.adventurer.name}
+                                </Link>
+                            </span>
+
+                            {questAssignment.assignment.completedAt === null ? (
+                                <span className="quest-detail__assignment-meta">
+                                    On this quest for{" "}
+                                    {formatDuration(questAssignment.assignment.assignedAt, null)}, since{" "}
+                                    {formatDateTime(questAssignment.assignment.assignedAt)}
+                                </span>
+                            ) : (
+                                <span className="quest-detail__assignment-meta">
+                                    Finished on {formatDateTime(questAssignment.assignment.completedAt)},
+                                    {" "}
+                                    {formatDuration(
+                                        questAssignment.assignment.assignedAt,
+                                        questAssignment.assignment.completedAt
+                                    )}{" "}
+                                    after being taken on{" "}
+                                    {formatDateTime(questAssignment.assignment.assignedAt)}
+                                </span>
+                            )}
+                        </div>
+                    )}
+
                     <div className="quest-detail__row">
                         {statusAction !== null ? (
                             <button
@@ -138,7 +198,7 @@ export default function QuestDetails() {
                         <Link to={ROUTES.dashboard} className="btn">
                                             Back to the board
                         </Link>
-                        {quest.status !== QuestStatus.ON_GOING && (
+                        {quest.status === QuestStatus.AVAILABLE && (
                             <button
                                 type="button"
                                 className="btn"

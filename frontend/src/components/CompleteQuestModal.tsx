@@ -1,14 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { getAdventurers, getAdventurerHistory } from "../services/adventurerServices";
+import { findQuestAssignment } from "../services/adventurerServices";
+import type { QuestAssignment } from "../services/adventurerServices";
 import { completeQuest } from "../services/QuestServices";
-import type { AdventurerResponse } from "../types/adventurer";
+import { formatDateTime } from "./format";
 import Modal from "./Modal";
-
-interface ActiveAssignment {
-    adventurer: AdventurerResponse;
-    assignedAt: string;
-}
 
 interface CompleteQuestModalProps {
     questId: number;
@@ -16,44 +12,12 @@ interface CompleteQuestModalProps {
     onClose: () => void;
 }
 
-
-async function findActiveAssignment(questId: number): Promise<ActiveAssignment | null> {
-    const adventurers = await getAdventurers();
-    const histories = await Promise.all(
-        adventurers.map((adventurer) => getAdventurerHistory(adventurer.id).catch(() => []))
-    );
-
-    for (const [index, history] of histories.entries()) {
-        const assignment = history.find(
-            (entry) => entry.questId === questId && !entry.completedAt
-        );
-        if (assignment) {
-            return { adventurer: adventurers[index], assignedAt: assignment.assignedAt };
-        }
-    }
-
-    return null;
-}
-
-function formatDate(value: string): string {
-    const date = new Date(value);
-    if (Number.isNaN(date.getTime())) return value;
-
-    return date.toLocaleString(undefined, {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-}
-
 export default function CompleteQuestModal({
     questId,
     onCompleted,
     onClose,
 }: CompleteQuestModalProps) {
-    const [active, setActive] = useState<ActiveAssignment | null>(null);
+    const [active, setActive] = useState<QuestAssignment | null>(null);
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [completing, setCompleting] = useState(false);
@@ -61,10 +25,10 @@ export default function CompleteQuestModal({
     useEffect(() => {
         let cancelled = false;
 
-        findActiveAssignment(questId)
+        findQuestAssignment(questId)
             .then((found) => {
                 if (cancelled) return;
-                setActive(found);
+                setActive(found !== null && found.assignment.completedAt === null ? found : null);
                 setLoaded(true);
             })
             .catch((err: Error) => {
@@ -104,7 +68,7 @@ export default function CompleteQuestModal({
                         {active !== null ? (
                             <p className="modal__message">
                                 <strong>{active.adventurer.name}</strong> has been on this quest
-                                since {formatDate(active.assignedAt)}.
+                                since {formatDateTime(active.assignment.assignedAt)}.
                             </p>
                         ) : (
                             <p className="modal__message">

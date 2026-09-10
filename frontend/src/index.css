@@ -25,7 +25,7 @@
 
   --class-warrior: #9b0000;
   --class-mage: #116dd0;
-  --class-ranger: #0b8500;
+  --class-ranger: #0b6e00;
   --class-cleric: #ffdd00;
 
   --reward-gold: #fffb00;
@@ -1040,4 +1040,196 @@ tbody td {
 
 .guild-card .xp__label {
   text-align: right;
+}
+
+.adventurer-detail {
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .adventurer-detail {
+    padding: 28px 32px 24px;
+  }
+}
+
+.adventurer-detail__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+  border-bottom: 1px solid var(--border-dark);
+  padding-bottom: 12px;
+}
+
+.adventurer-detail__identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.adventurer-detail__title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+}
+
+.adventurer-detail__class {
+  font-style: italic;
+  font-size: 20px;
+}
+
+.adventurer-detail__level {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+}
+
+.adventurer-detail__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+.adventurer-detail__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 200px;
+  flex: 1;
+}
+
+.adventurer-detail__stat-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+}
+
+.adventurer-detail__stat-hint {
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+
+.adventurer-detail__stat .xp {
+  align-items: stretch;
+  min-width: 0;
+}
+
+.adventurer-detail__stat .xp__label {
+  display: none;
+}
+
+.adventurer-detail__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.adventurer-detail__section-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+  border-bottom: 1px solid rgba(20, 13, 7, 0.35);
+  padding-bottom: 6px;
+}
+
+.quest-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 16px;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-dark);
+  padding: 14px 16px;
+}
+
+.quest-line__main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 180px;
+}
+
+.quest-line__title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.quest-line__date {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+.quest-line__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .quest-line {
+    background-color: transparent;
+    border: none;
+    padding: 4px 0;
+  }
+}
+
+.quest-detail__assignment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.quest-detail__assignment-line {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.quest-detail__adventurer {
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.quest-detail__assignment-meta {
+  font-size: 16px;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+.table--history thead th:nth-child(n + 2):nth-child(-n + 5),
+.table--history tbody td:nth-child(n + 2):nth-child(-n + 5) {
+  text-align: center;
+}
+
+.history__date {
+  font-size: 16px;
+  white-space: nowrap;
 }

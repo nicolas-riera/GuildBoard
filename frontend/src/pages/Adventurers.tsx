@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
 import { getAdventurers, getOnGoingQuests } from "../services/adventurerServices";
 import { CharacterClass } from "../components/enums";
@@ -8,6 +9,8 @@ import RangeFilter from "../components/RangeFilter";
 import type { RangeMode } from "../components/RangeFilter";
 import SortableHeader from "../components/SortableHeader";
 import type { Sort } from "../components/SortableHeader";
+import XpBar from "../components/XpBar";
+import { adventurerDetailsPath } from "../routes";
 
 type ClassFilter = CharacterClass | "ALL";
 type SortKey = "name" | "class" | "level" | "gold" | "xp";
@@ -20,48 +23,12 @@ const SORT_COMPARE: Record<SortKey, (a: AdventurerResponse, b: AdventurerRespons
     xp: (a, b) => a.xp - b.xp,
 };
 
-function xpToNextLevel(level: number): number {
-    return level * 100;
-}
-
-function xpPercent(adventurer: AdventurerResponse): number {
-    const needed = xpToNextLevel(adventurer.level);
-    if (needed <= 0) return 0;
-    return Math.min(100, Math.round((adventurer.xp / needed) * 100));
-}
-
 function rankByPodium(adventurers: AdventurerResponse[]): Map<number, number> {
     const podium = [...adventurers]
         .sort((a, b) => (b.level - a.level) || (b.xp - a.xp))
         .slice(0, 3);
 
     return new Map(podium.map((adventurer, index) => [adventurer.id, index + 1]));
-}
-
-interface XpBarProps {
-    adventurer: AdventurerResponse;
-}
-
-function XpBar({ adventurer }: XpBarProps) {
-    const needed = xpToNextLevel(adventurer.level);
-
-    return (
-        <div className="xp" title={`${adventurer.xp} / ${needed} xp`}>
-            <div
-                className="xp__track"
-                role="progressbar"
-                aria-label="Progress to the next level"
-                aria-valuemin={0}
-                aria-valuemax={needed}
-                aria-valuenow={adventurer.xp}
-            >
-                <div className="xp__fill" style={{ width: `${xpPercent(adventurer)}%` }} />
-            </div>
-            <span className="xp__label">
-                {adventurer.xp}/{needed}
-            </span>
-        </div>
-    );
 }
 
 export default function Adventurers() {
@@ -254,9 +221,9 @@ export default function Adventurers() {
                                         <XpBar adventurer={adventurer} />
                                     </td>
                                     <td>
-                                        <button type="button" className="btn">
+                                        <Link to={adventurerDetailsPath(adventurer.id)} className="btn">
                                             Details
-                                        </button>
+                                        </Link>
                                     </td>
                                 </tr>
                             ))}
@@ -283,9 +250,9 @@ export default function Adventurers() {
                             <div className="guild-card__bottom">
                                 <span className="guild-card__meta">LVL {adventurer.level}</span>
                                 <span className="reward__gold">{adventurer.gold} gold</span>
-                                <button type="button" className="btn btn--sm">
+                                <Link to={adventurerDetailsPath(adventurer.id)} className="btn btn--sm">
                                     Details
-                                </button>
+                                </Link>
                             </div>
                             <XpBar adventurer={adventurer} />
                         </div>
