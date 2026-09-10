@@ -23,7 +23,6 @@ interface QuestFormProps {
     onCancel: () => void;
 }
 
-// numbers are held as text so the field can be emptied while typing
 function toInt(value: string): number {
     const trimmed = value.trim();
     return trimmed === "" ? Number.NaN : Number(trimmed);
@@ -48,7 +47,6 @@ export default function QuestForm({
     const [error, setError] = useState<string | null>(null);
     const [pending, setPending] = useState(false);
 
-    // the API rejects these with a bare 400, so they are checked here to say what is wrong
     function validate(): string | null {
         const trimmedTitle = title.trim();
         if (trimmedTitle.length < 5 || trimmedTitle.length > 100) {
@@ -73,7 +71,6 @@ export default function QuestForm({
         return null;
     }
 
-    // rolls a reward from the level and the difficulty, with a 15% swing either way
     function suggestRewards() {
         const level = toInt(requiredLevel);
         if (!Number.isInteger(level) || level < 1) {

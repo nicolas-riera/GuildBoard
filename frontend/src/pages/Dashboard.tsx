@@ -10,18 +10,15 @@ import {
     STATUS_LABEL,
     STATUS_ORDER,
 } from "../components/Record";
+import RangeFilter from "../components/RangeFilter";
+import type { RangeMode } from "../components/RangeFilter";
+import SortableHeader from "../components/SortableHeader";
+import type { Sort } from "../components/SortableHeader";
 import { ROUTES, questDetailsPath } from "../routes";
 
 type StatusFilter = QuestStatus | "ALL";
 type DifficultyFilter = Difficulty | "ALL";
-type LevelMode = "MIN" | "MAX";
-
 type SortKey = "title" | "difficulty" | "gold" | "level" | "status";
-type SortDirection = "asc" | "desc";
-interface Sort {
-    key: SortKey;
-    direction: SortDirection;
-}
 
 const SORT_COMPARE: Record<SortKey, (a: QuestResponse, b: QuestResponse) => number> = {
     title: (a, b) => a.title.localeCompare(b.title),
@@ -31,41 +28,14 @@ const SORT_COMPARE: Record<SortKey, (a: QuestResponse, b: QuestResponse) => numb
     status: (a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status],
 };
 
-interface SortableHeaderProps {
-    label: string;
-    sortKey: SortKey;
-    sort: Sort | null;
-    onSort: (key: SortKey) => void;
-}
-
-function SortableHeader({ label, sortKey, sort, onSort }: SortableHeaderProps) {
-    const direction = sort !== null && sort.key === sortKey ? sort.direction : null;
-
-    return (
-        <th aria-sort={direction === null ? "none" : direction === "asc" ? "ascending" : "descending"}>
-            <button
-                type="button"
-                className="th-sort"
-                onClick={() => onSort(sortKey)}
-                title={`Sort by ${label.toLowerCase()}`}
-            >
-                {label}
-                <span className="th-sort__arrow" aria-hidden="true">
-                    {direction === null ? "⇅" : direction === "asc" ? "▲" : "▼"}
-                </span>
-            </button>
-        </th>
-    );
-}
-
 export default function Dashboard() {
     const [quests, setQuests] = useState<QuestResponse[]>([]);
     const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
     const [difficultyFilter, setDifficultyFilter] = useState<DifficultyFilter>("ALL");
-    const [levelMode, setLevelMode] = useState<LevelMode>("MIN");
+    const [levelMode, setLevelMode] = useState<RangeMode>("MIN");
     const [level, setLevel] = useState(1);
     const [search, setSearch] = useState("");
-    const [sort, setSort] = useState<Sort | null>(null);
+    const [sort, setSort] = useState<Sort<SortKey> | null>(null);
     const [loadError, setLoadError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -147,25 +117,15 @@ export default function Dashboard() {
                     </select>
                 </div>
 
-                <div className="filter">
-                    <label htmlFor="level-filter">Required level</label>
-                    <select
-                        id="level-mode"
-                        aria-label="Required level comparison"
-                        value={levelMode}
-                        onChange={(e) => setLevelMode(e.target.value as LevelMode)}
-                    >
-                        <option value="MIN">At least</option>
-                        <option value="MAX">At most</option>
-                    </select>
-                    <input
-                        id="level-filter"
-                        type="number"
-                        min={1}
-                        value={level}
-                        onChange={(e) => setLevel(Math.max(1, Number(e.target.value) || 1))}
-                    />
-                </div>
+                <RangeFilter
+                    id="level"
+                    label="Required level"
+                    mode={levelMode}
+                    value={level}
+                    floor={1}
+                    onModeChange={setLevelMode}
+                    onValueChange={setLevel}
+                />
             </aside>
 
             <main className="content">

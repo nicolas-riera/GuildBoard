@@ -52,3 +52,10 @@ export const DIFFICULTY_REWARD_RATIO: Record<Difficulty, number> = {
     [Difficulty.HARD]: 0.9,
     [Difficulty.EPIC]: 1.5,
 };
+
+export const CLASS_COLOR: Record<CharacterClass, string> = {
+    [CharacterClass.WARRIOR]: "class--warrior",
+    [CharacterClass.RANGER]: "class--ranger",
+    [CharacterClass.MAGE]: "class--mage",
+    [CharacterClass.CLERIC]: "class--cleric",
+};

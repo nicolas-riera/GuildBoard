@@ -51,7 +51,6 @@ export default function EditQuest() {
         return <p className="empty-row">Loading the quest...</p>;
     }
 
-    // the API only lets an available quest be edited
     if (quest.status !== QuestStatus.AVAILABLE) {
         return (
             <main className="quest-form">

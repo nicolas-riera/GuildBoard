@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { getAdventurers, getAdventurerHistory } from "../services/adventurerServices";
+import { getAdventurers, getOnGoingQuests } from "../services/adventurerServices";
 import { assignQuest } from "../services/QuestServices";
 import type { AdventurerResponse } from "../types/adventurer";
 import Modal from "./Modal";
-import { CLASS_LABEL } from "./Record";
+import { CLASS_COLOR, CLASS_LABEL } from "./Record";
 
 interface Candidate {
     adventurer: AdventurerResponse;
@@ -38,15 +38,11 @@ export default function AdventurersModal({
                 (adventurer) => adventurer.level >= requiredLevel
             );
 
-            const histories = await Promise.all(
-                eligible.map((adventurer) => getAdventurerHistory(adventurer.id).catch(() => null))
-            );
+            const onGoing = await getOnGoingQuests(eligible);
 
-            return eligible.map((adventurer, index) => ({
+            return eligible.map((adventurer) => ({
                 adventurer,
-                onGoingQuest:
-                    histories[index]?.find((assignment) => !assignment.completedAt)?.questTitle ??
-                    null,
+                onGoingQuest: onGoing.get(adventurer.id) ?? null,
             }));
         }
 
@@ -136,7 +132,9 @@ export default function AdventurersModal({
                                     }
                                 >
                                     <span className="adventurer__name">{adventurer.name}</span>
-                                    <span className="adventurer__class">
+                                    <span
+                                        className={`adventurer__class ${CLASS_COLOR[adventurer.characterClass]}`}
+                                    >
                                         {CLASS_LABEL[adventurer.characterClass]}
                                     </span>
                                     <span className="adventurer__level">LVL {adventurer.level}</span>

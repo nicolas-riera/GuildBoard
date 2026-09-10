@@ -23,6 +23,11 @@
 
   --danger-bg: #b3161c;
 
+  --class-warrior: #9b0000;
+  --class-mage: #116dd0;
+  --class-ranger: #0b8500;
+  --class-cleric: #ffdd00;
+
   --reward-gold: #fffb00;
   --reward-xp: #0048bc;
 
@@ -747,7 +752,6 @@ tbody td {
 }
 
 .adventurer__class {
-  color: var(--ink-muted);
   font-style: italic;
 }
 
@@ -856,4 +860,184 @@ tbody td {
 .quest-form button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.guild-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.guild-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.table--guild thead th:nth-child(n + 2):nth-child(-n + 5),
+.table--guild tbody td:nth-child(n + 2):nth-child(-n + 5) {
+  text-align: center;
+}
+
+.guild-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-dark);
+  padding: 14px 16px;
+  gap: 12px;
+}
+
+.class--warrior {
+  color: var(--class-warrior);
+}
+
+.class--mage {
+  color: var(--class-mage);
+}
+
+.class--ranger {
+  color: var(--class-ranger);
+}
+
+.class--cleric {
+  color: var(--class-cleric);
+}
+
+.guild-name {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.guild-name__row {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.guild-name__quest {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-muted);
+  overflow-wrap: anywhere;
+}
+
+.rank {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid var(--border-dark);
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: lining-nums;
+  font-feature-settings: "lnum" 1;
+  line-height: 1;
+  color: var(--border-dark);
+}
+
+.rank--1 {
+  background-color: #e8c33d;
+}
+
+.rank--2 {
+  background-color: #c9c9c9;
+}
+
+.rank--3 {
+  background-color: #c98b52;
+}
+
+.xp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 110px;
+}
+
+.xp__track {
+  width: 100%;
+  height: 12px;
+  background-color: rgba(0, 0, 0, 0.22);
+  border: 1px solid var(--border-dark);
+  overflow: hidden;
+}
+
+.xp__fill {
+  height: 100%;
+  background-color: var(--reward-xp);
+}
+
+.xp__label {
+  font-size: 14px;
+  color: var(--reward-xp);
+  white-space: nowrap;
+}
+
+.filter__toggle {
+  width: 100%;
+}
+
+.filter__toggle--on {
+  background-color: var(--reward-xp);
+  color: var(--btn-bg);
+}
+
+.guild-card {
+  flex-direction: column;
+  gap: 10px;
+}
+
+.guild-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.guild-card__top .guild-name__label {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.guild-card__class {
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.guild-card__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.guild-card__meta {
+  font-family: var(--font-display);
+  font-size: 18px;
+}
+
+.guild-card .xp {
+  align-items: stretch;
+  min-width: 0;
+}
+
+.guild-card .xp__label {
+  text-align: right;
 }

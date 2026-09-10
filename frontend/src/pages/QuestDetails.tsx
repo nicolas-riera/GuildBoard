@@ -144,7 +144,7 @@ export default function QuestDetails() {
                                 className="btn"
                                 onClick={() => navigate(questEditPath(quest.id))}
                             >
-                                Modify
+                                Edit
                             </button>
                         )}
                         {quest.status === QuestStatus.AVAILABLE && (

@@ -1,5 +1,6 @@
 export const ROUTES = {
     dashboard: "/",
+    adventurers: "/adventurers",
     newQuest: "/quests/new",
     questDetails: "/quests/:id",
     editQuest: "/quests/:id/edit",

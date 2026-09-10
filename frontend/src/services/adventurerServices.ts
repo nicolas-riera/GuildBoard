@@ -45,3 +45,19 @@ export async function getAdventurerHistory(
 ): Promise<AssignmentResponse[]> {
   return fetchApi<AssignmentResponse[]>(`/adventurers/${id}/history`);
 }
+
+export async function getOnGoingQuests(
+  adventurers: AdventurerResponse[]
+): Promise<Map<number, string>> {
+  const histories = await Promise.all(
+    adventurers.map((adventurer) => getAdventurerHistory(adventurer.id).catch(() => []))
+  );
+
+  const onGoing = new Map<number, string>();
+  adventurers.forEach((adventurer, index) => {
+    const active = histories[index].find((assignment) => !assignment.completedAt);
+    if (active) onGoing.set(adventurer.id, active.questTitle);
+  });
+
+  return onGoing;
+}
