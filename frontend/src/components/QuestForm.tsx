@@ -1,8 +1,9 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 import { Difficulty } from "./enums";
 import { DIFFICULTY_LABEL, DIFFICULTY_REWARD_RATIO } from "./Record";
+
+import "../styles/form.css";
 
 export interface QuestFormValues {
     title: string;

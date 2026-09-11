@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
-import { findQuestAssignment } from "../services/adventurerServices";
-import type { QuestAssignment } from "../services/adventurerServices";
-import { completeQuest } from "../services/QuestServices";
 import { formatDateTime } from "./format";
 import Modal from "./Modal";
+import { findQuestAssignment, type QuestAssignment } from "../services/adventurerServices";
+import { completeQuest } from "../services/QuestServices";
 
 interface CompleteQuestModalProps {
     questId: number;

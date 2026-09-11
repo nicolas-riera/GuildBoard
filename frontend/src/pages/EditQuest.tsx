@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import QuestForm from "../components/QuestForm";
-import type { QuestFormValues } from "../components/QuestForm";
 import { QuestStatus } from "../components/enums";
+import QuestForm, { type QuestFormValues } from "../components/QuestForm";
+import { questDetailsPath } from "../routes";
 import { getQuestById, updateQuest } from "../services/QuestServices";
 import type { QuestResponse } from "../types/quest";
-import { questDetailsPath } from "../routes";
+
+import "../styles/form.css";
 
 export default function EditQuest() {
     const { id } = useParams<{ id: string }>();

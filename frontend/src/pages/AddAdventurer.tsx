@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
-import AdventurerForm from "../components/AdventurerForm";
-import type { AdventurerFormValues } from "../components/AdventurerForm";
+import AdventurerForm, { type AdventurerFormValues } from "../components/AdventurerForm";
 import { CharacterClass } from "../components/enums";
-import { createAdventurer } from "../services/adventurerServices";
 import { ROUTES, adventurerDetailsPath } from "../routes";
+import { createAdventurer } from "../services/adventurerServices";
 
 const EMPTY_ADVENTURER: AdventurerFormValues = {
     name: "",

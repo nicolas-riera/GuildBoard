@@ -1,10 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
-import QuestForm from "../components/QuestForm";
-import type { QuestFormValues } from "../components/QuestForm";
 import { Difficulty } from "../components/enums";
-import { createQuest } from "../services/QuestServices";
+import QuestForm, { type QuestFormValues } from "../components/QuestForm";
 import { ROUTES, questDetailsPath } from "../routes";
+import { createQuest } from "../services/QuestServices";
 
 const EMPTY_QUEST: QuestFormValues = {
     title: "",

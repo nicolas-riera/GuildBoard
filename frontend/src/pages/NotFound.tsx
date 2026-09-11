@@ -1,6 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 import { ROUTES } from "../routes";
 
+import "../styles/pages/quest-details.css";
+
 export default function NotFound() {
     const { pathname } = useLocation();
 

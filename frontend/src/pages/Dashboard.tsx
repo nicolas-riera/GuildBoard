@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { getQuests } from "../services/QuestServices";
+
 import { Difficulty, QuestStatus } from "../components/enums";
-import type { QuestResponse } from "../types/quest";
 import {
     DIFFICULTY_LABEL,
     DIFFICULTY_BADGE,
@@ -10,11 +9,16 @@ import {
     STATUS_LABEL,
     STATUS_ORDER,
 } from "../components/Record";
-import RangeFilter from "../components/RangeFilter";
-import type { RangeMode } from "../components/RangeFilter";
-import SortableHeader from "../components/SortableHeader";
-import type { Sort } from "../components/SortableHeader";
+import RangeFilter, { type RangeMode } from "../components/RangeFilter";
+import SortableHeader, { type Sort } from "../components/SortableHeader";
 import { ROUTES, questDetailsPath } from "../routes";
+import { getQuests } from "../services/QuestServices";
+import type { QuestResponse } from "../types/quest";
+
+import "../styles/list-page.css";
+import "../styles/table.css";
+import "../styles/cards.css";
+import "../styles/pages/dashboard.css";
 
 type StatusFilter = QuestStatus | "ALL";
 type DifficultyFilter = Difficulty | "ALL";
@@ -132,7 +136,7 @@ export default function Dashboard() {
                 <h2 className="content__title">Available quests</h2>
 
                 <div className="table-wrapper">
-                    <table>
+                    <table className="table--quests">
                         <thead>
                             <tr>
                                 <SortableHeader label="Title" sortKey="title" sort={sort} onSort={toggleSort} />
@@ -181,7 +185,7 @@ export default function Dashboard() {
 
                 <div className="card-list">
                     {visibleQuests.map((quest) => (
-                        <div key={quest.id} className="quest-card">
+                        <div key={quest.id} className="card quest-card">
                             <div className="quest-card__left">
                                 <span className="quest-card__title">{quest.title}</span>
                                 <span className="quest-card__meta">lvl required : {quest.requiredLevel}</span>

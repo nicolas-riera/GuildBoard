@@ -1,9 +1,10 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 import { CharacterClass } from "./enums";
 import { CLASS_LABEL } from "./Record";
 import { xpToNextLevel } from "./xp";
+
+import "../styles/form.css";
 
 export interface AdventurerFormValues {
     name: string;

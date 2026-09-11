@@ -6,15 +6,19 @@ import {
     getAdventurerById,
     getAdventurerHistory,
 } from "../services/adventurerServices";
-import type { AdventurerResponse } from "../types/adventurer";
-import type { AssignmentResponse } from "../types/assignment";
-import { CLASS_COLOR, CLASS_LABEL, DIFFICULTY_BADGE, DIFFICULTY_LABEL } from "../components/Record";
 import CompleteQuestModal from "../components/CompleteQuestModal";
 import ConfirmModal from "../components/ConfirmModal";
-import XpBar from "../components/XpBar";
-import { xpToNextLevel } from "../components/xp";
 import { formatDateTime } from "../components/format";
+import { CLASS_COLOR, CLASS_LABEL, DIFFICULTY_BADGE, DIFFICULTY_LABEL } from "../components/Record";
+import { xpToNextLevel } from "../components/xp";
+import XpBar from "../components/XpBar";
 import { ROUTES, adventurerEditPath, questDetailsPath } from "../routes";
+import type { AdventurerResponse } from "../types/adventurer";
+import type { AssignmentResponse } from "../types/assignment";
+
+import "../styles/table.css";
+import "../styles/cards.css";
+import "../styles/pages/adventurer-details.css";
 
 interface LoadResult {
     adventurerId: number;
@@ -138,7 +142,7 @@ export default function AdventurerDetails() {
                         {onGoing === null ? (
                             <p className="empty-row">This adventurer is not on a quest.</p>
                         ) : (
-                            <div className="quest-line">
+                            <div className="card quest-line">
                                 <div className="quest-line__main">
                                     <span className="quest-line__title">{onGoing.questTitle}</span>
                                     <span className="quest-line__date">
@@ -237,7 +241,7 @@ export default function AdventurerDetails() {
 
                                 <div className="card-list">
                                     {completed.map((assignment) => (
-                                        <div key={assignment.id} className="quest-card">
+                                        <div key={assignment.id} className="card quest-card">
                                             <div className="quest-card__left">
                                                 <span className="quest-card__title">
                                                     {assignment.questTitle}

@@ -1,16 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { getAdventurers, getOnGoingQuests } from "../services/adventurerServices";
 import { CharacterClass } from "../components/enums";
-import type { AdventurerResponse } from "../types/adventurer";
 import { CLASS_COLOR, CLASS_LABEL } from "../components/Record";
-import RangeFilter from "../components/RangeFilter";
-import type { RangeMode } from "../components/RangeFilter";
-import SortableHeader from "../components/SortableHeader";
-import type { Sort } from "../components/SortableHeader";
+import RangeFilter, { type RangeMode } from "../components/RangeFilter";
+import SortableHeader, { type Sort } from "../components/SortableHeader";
 import XpBar from "../components/XpBar";
 import { ROUTES, adventurerDetailsPath } from "../routes";
+import { getAdventurers, getOnGoingQuests } from "../services/adventurerServices";
+import type { AdventurerResponse } from "../types/adventurer";
+
+import "../styles/list-page.css";
+import "../styles/table.css";
+import "../styles/cards.css";
+import "../styles/pages/adventurers.css";
 
 type ClassFilter = CharacterClass | "ALL";
 type SortKey = "name" | "class" | "level" | "gold" | "xp";
@@ -240,7 +243,7 @@ export default function Adventurers() {
 
                 <div className="card-list">
                     {visibleAdventurers.map((adventurer) => (
-                        <div key={adventurer.id} className="guild-card">
+                        <div key={adventurer.id} className="card guild-card">
                             <div className="guild-card__top">
                                 {renderName(adventurer)}
                                 <span className={`guild-card__class ${CLASS_COLOR[adventurer.characterClass]}`}>

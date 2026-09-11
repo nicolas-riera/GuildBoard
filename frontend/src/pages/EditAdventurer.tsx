@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import AdventurerForm from "../components/AdventurerForm";
-import type { AdventurerFormValues } from "../components/AdventurerForm";
+import AdventurerForm, { type AdventurerFormValues } from "../components/AdventurerForm";
+import { adventurerDetailsPath } from "../routes";
 import { getAdventurerById, updateAdventurer } from "../services/adventurerServices";
 import type { AdventurerResponse } from "../types/adventurer";
-import { adventurerDetailsPath } from "../routes";
 
 export default function EditAdventurer() {
     const { id } = useParams<{ id: string }>();

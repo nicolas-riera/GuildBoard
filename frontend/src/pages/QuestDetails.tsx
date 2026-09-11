@@ -1,17 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 
-import { deleteQuest, getQuestById } from "../services/QuestServices";
-import { findQuestAssignment } from "../services/adventurerServices";
-import type { QuestAssignment } from "../services/adventurerServices";
-import type { QuestResponse } from "../types/quest";
-import { DIFFICULTY_LABEL, DIFFICULTY_BADGE, STATUS_LABEL } from "../components/Record";
-import { QuestStatus } from "../components/enums";
 import AdventurersModal from "../components/AdventurersModal";
 import CompleteQuestModal from "../components/CompleteQuestModal";
 import ConfirmModal from "../components/ConfirmModal";
+import { QuestStatus } from "../components/enums";
 import { formatDateTime, formatDuration } from "../components/format";
+import { DIFFICULTY_BADGE, DIFFICULTY_LABEL, STATUS_LABEL } from "../components/Record";
 import { ROUTES, adventurerDetailsPath, questEditPath } from "../routes";
+import { findQuestAssignment, type QuestAssignment } from "../services/adventurerServices";
+import { deleteQuest, getQuestById } from "../services/QuestServices";
+import type { QuestResponse } from "../types/quest";
+
+import "../styles/pages/quest-details.css";
 
 interface LoadResult {
     questId: number;

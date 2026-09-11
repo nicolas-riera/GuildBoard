@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 
+import Modal from "./Modal";
+import { CLASS_COLOR, CLASS_LABEL } from "./Record";
 import { getAdventurers, getOnGoingQuests } from "../services/adventurerServices";
 import { assignQuest } from "../services/QuestServices";
 import type { AdventurerResponse } from "../types/adventurer";
-import Modal from "./Modal";
-import { CLASS_COLOR, CLASS_LABEL } from "./Record";
 
 interface Candidate {
     adventurer: AdventurerResponse;

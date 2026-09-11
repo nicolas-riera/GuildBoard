@@ -1,6 +1,8 @@
 import type { AdventurerResponse } from "../types/adventurer";
 import { xpPercent, xpToNextLevel } from "./xp";
 
+import "../styles/xp-bar.css";
+
 interface XpBarProps {
     adventurer: AdventurerResponse;
 }
