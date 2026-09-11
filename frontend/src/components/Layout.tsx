@@ -8,7 +8,7 @@ export default function Layout() {
                 <h1 className="topbar__title">
                     <Link to={ROUTES.dashboard}>GuildBoard</Link>
                 </h1>
-                <nav className="topbar__nav">
+                <nav>
                     <Link to={ROUTES.adventurers} className="topbar__link">
                         Adventurers
                     </Link>

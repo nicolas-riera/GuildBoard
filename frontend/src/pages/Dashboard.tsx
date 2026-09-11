@@ -1,14 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
+import DifficultyBadge from "../components/DifficultyBadge";
 import { Difficulty, QuestStatus } from "../components/enums";
-import {
-    DIFFICULTY_LABEL,
-    DIFFICULTY_BADGE,
-    DIFFICULTY_ORDER,
-    STATUS_LABEL,
-    STATUS_ORDER,
-} from "../components/Record";
+import { DIFFICULTY_ORDER, STATUS_LABEL, STATUS_ORDER } from "../components/Record";
+import Reward from "../components/Reward";
 import RangeFilter, { type RangeMode } from "../components/RangeFilter";
 import SortableHeader, { type Sort } from "../components/SortableHeader";
 import { ROUTES, questDetailsPath } from "../routes";
@@ -43,12 +39,21 @@ export default function Dashboard() {
     const [loadError, setLoadError] = useState<string | null>(null);
 
     useEffect(() => {
+        let cancelled = false;
+
         getQuests()
             .then((data) => {
+                if (cancelled) return;
                 setQuests(data);
                 setLoadError(null);
             })
-            .catch((err: Error) => setLoadError(err.message));
+            .catch((err: Error) => {
+                if (!cancelled) setLoadError(err.message);
+            });
+
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
     const visibleQuests = useMemo(() => {
@@ -152,19 +157,13 @@ export default function Dashboard() {
                                 <tr key={quest.id}>
                                     <td>{quest.title}</td>
                                     <td>
-                                        <span className={`badge ${DIFFICULTY_BADGE[quest.difficulty]}`}>
-                                            {DIFFICULTY_LABEL[quest.difficulty]}
-                                        </span>
+                                        <DifficultyBadge difficulty={quest.difficulty} />
                                     </td>
                                     <td>
-                                        <span className="reward">
-                                            <span className="reward__gold">{quest.goldReward} gold</span>
-                                            <span className="reward__sep">/</span>
-                                            <span className="reward__xp">{quest.xpReward} xp</span>
-                                        </span>
+                                        <Reward gold={quest.goldReward} xp={quest.xpReward} />
                                     </td>
                                     <td>{quest.requiredLevel}</td>
-                                    <td className="status-text">{STATUS_LABEL[quest.status]}</td>
+                                    <td>{STATUS_LABEL[quest.status]}</td>
                                     <td>
                                         <Link to={questDetailsPath(quest.id)} className="btn">
                                             Details
@@ -189,16 +188,10 @@ export default function Dashboard() {
                             <div className="quest-card__left">
                                 <span className="quest-card__title">{quest.title}</span>
                                 <span className="quest-card__meta">lvl required : {quest.requiredLevel}</span>
-                                <span className="reward">
-                                    <span className="reward__gold">{quest.goldReward} gold</span>
-                                    <span className="reward__sep">/</span>
-                                    <span className="reward__xp">{quest.xpReward} xp</span>
-                                </span>
+                                <Reward gold={quest.goldReward} xp={quest.xpReward} />
                             </div>
                             <div className="quest-card__right">
-                                <span className={`badge ${DIFFICULTY_BADGE[quest.difficulty]}`}>
-                                    {DIFFICULTY_LABEL[quest.difficulty]}
-                                </span>
+                                <DifficultyBadge difficulty={quest.difficulty} />
                                 <span className="quest-card__status">{STATUS_LABEL[quest.status]}</span>
                                 <Link to={questDetailsPath(quest.id)} className="btn btn--sm">
                                     Details

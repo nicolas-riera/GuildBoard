@@ -2,6 +2,7 @@ import { useState, type FormEvent } from "react";
 
 import { Difficulty } from "./enums";
 import { DIFFICULTY_LABEL, DIFFICULTY_REWARD_RATIO } from "./Record";
+import { toInt } from "../utils/number";
 
 import "../styles/form.css";
 
@@ -22,11 +23,6 @@ interface QuestFormProps {
     canSuggestRewards?: boolean;
     onSubmit: (values: QuestFormValues) => Promise<void>;
     onCancel: () => void;
-}
-
-function toInt(value: string): number {
-    const trimmed = value.trim();
-    return trimmed === "" ? Number.NaN : Number(trimmed);
 }
 
 export default function QuestForm({

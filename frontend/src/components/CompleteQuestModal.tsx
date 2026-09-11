@@ -7,27 +7,33 @@ import { completeQuest } from "../services/QuestServices";
 
 interface CompleteQuestModalProps {
     questId: number;
+    assignment?: QuestAssignment;
     onCompleted: () => void;
     onClose: () => void;
 }
 
 export default function CompleteQuestModal({
     questId,
+    assignment,
     onCompleted,
     onClose,
 }: CompleteQuestModalProps) {
-    const [active, setActive] = useState<QuestAssignment | null>(null);
-    const [loaded, setLoaded] = useState(false);
+    const known = assignment !== undefined;
+
+    const [fetched, setFetched] = useState<QuestAssignment | null>(null);
+    const [loaded, setLoaded] = useState(known);
     const [error, setError] = useState<string | null>(null);
     const [completing, setCompleting] = useState(false);
 
     useEffect(() => {
+        if (known) return;
+
         let cancelled = false;
 
         findQuestAssignment(questId)
             .then((found) => {
                 if (cancelled) return;
-                setActive(found !== null && found.assignment.completedAt === null ? found : null);
+                setFetched(found);
                 setLoaded(true);
             })
             .catch((err: Error) => {
@@ -39,7 +45,10 @@ export default function CompleteQuestModal({
         return () => {
             cancelled = true;
         };
-    }, [questId]);
+    }, [questId, known]);
+
+    const found = assignment ?? fetched;
+    const active = found !== null && found.assignment.completedAt === null ? found : null;
 
     async function handleConfirm() {
         if (completing) return;

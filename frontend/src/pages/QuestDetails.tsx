@@ -4,9 +4,12 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import AdventurersModal from "../components/AdventurersModal";
 import CompleteQuestModal from "../components/CompleteQuestModal";
 import ConfirmModal from "../components/ConfirmModal";
+import DeleteIcon from "../components/DeleteIcon";
+import DifficultyBadge from "../components/DifficultyBadge";
 import { QuestStatus } from "../components/enums";
 import { formatDateTime, formatDuration } from "../components/format";
-import { DIFFICULTY_BADGE, DIFFICULTY_LABEL, STATUS_LABEL } from "../components/Record";
+import { STATUS_LABEL } from "../components/Record";
+import Reward from "../components/Reward";
 import { ROUTES, adventurerDetailsPath, questEditPath } from "../routes";
 import { findQuestAssignment, type QuestAssignment } from "../services/adventurerServices";
 import { deleteQuest, getQuestById } from "../services/QuestServices";
@@ -133,18 +136,17 @@ export default function QuestDetails() {
                     <p className="quest-detail__description">{quest.description}</p>
 
                     <div className="quest-detail__row">
-                        <span className={`badge badge--lg ${DIFFICULTY_BADGE[quest.difficulty]}`}>
-                            {DIFFICULTY_LABEL[quest.difficulty]}
-                        </span>
+                        <DifficultyBadge difficulty={quest.difficulty} large />
                     </div>
 
                     <div className="quest-detail__reward">
                         <span className="quest-detail__reward-title">Reward</span>
-                        <span className="reward reward--lg">
-                            <span className="reward__gold">{quest.goldReward} gold</span>
-                            <span className="reward__sep">&amp;</span>
-                            <span className="reward__xp">{quest.xpReward} xp</span>
-                        </span>
+                        <Reward
+                            gold={quest.goldReward}
+                            xp={quest.xpReward}
+                            large
+                            separator="&"
+                        />
                     </div>
 
                     {questAssignment !== null && (
@@ -196,7 +198,7 @@ export default function QuestDetails() {
 
                     <div className="quest-detail__footer">
                         <Link to={ROUTES.dashboard} className="btn">
-                                            Back to the board
+                            Back to the board
                         </Link>
                         {quest.status === QuestStatus.AVAILABLE && (
                             <button
@@ -215,15 +217,7 @@ export default function QuestDetails() {
                                 title="Delete this quest"
                                 aria-label={`Delete the quest ${quest.title}`}
                             >
-                                <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-                                    <circle cx="12" cy="12" r="10" fill="currentColor" />
-                                    <path
-                                        d="M8.5 8.5l7 7M15.5 8.5l-7 7"
-                                        stroke="var(--btn-bg)"
-                                        strokeWidth="2.4"
-                                        strokeLinecap="round"
-                                    />
-                                </svg>
+                                <DeleteIcon />
                             </button>
                         )}
                     </div>
@@ -240,6 +234,7 @@ export default function QuestDetails() {
                     {completeOpen && (
                         <CompleteQuestModal
                             questId={quest.id}
+                            assignment={questAssignment ?? undefined}
                             onCompleted={handleCompleted}
                             onClose={closeComplete}
                         />

@@ -3,6 +3,7 @@ import { useState, type FormEvent } from "react";
 import { CharacterClass } from "./enums";
 import { CLASS_LABEL } from "./Record";
 import { xpToNextLevel } from "./xp";
+import { toInt } from "../utils/number";
 
 import "../styles/form.css";
 
@@ -22,11 +23,6 @@ interface AdventurerFormProps {
     canEditProgress?: boolean;
     onSubmit: (values: AdventurerFormValues) => Promise<void>;
     onCancel: () => void;
-}
-
-function toInt(value: string): number {
-    const trimmed = value.trim();
-    return trimmed === "" ? Number.NaN : Number(trimmed);
 }
 
 export default function AdventurerForm({
