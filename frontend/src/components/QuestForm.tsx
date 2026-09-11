@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 
 import { Difficulty } from "./enums";
 import { DIFFICULTY_LABEL, DIFFICULTY_REWARD_RATIO } from "./Record";
-import { toInt } from "../utils/number";
+import { toInt } from "./number";
 
 import "../styles/form.css";
 
