@@ -269,7 +269,7 @@ export default function Adventurers() {
 
                 <div className="action-bar">
                     <Link to={ROUTES.newAdventurer} className="btn btn--action">
-                        Add an adventurer
+                        Recruit an adventurer
                     </Link>
                 </div>
             </main>
