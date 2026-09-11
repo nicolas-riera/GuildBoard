@@ -1,7 +1,9 @@
 export const ROUTES = {
     dashboard: "/",
     adventurers: "/adventurers",
+    newAdventurer: "/adventurers/new",
     adventurerDetails: "/adventurers/:id",
+    editAdventurer: "/adventurers/:id/edit",
     newQuest: "/quests/new",
     questDetails: "/quests/:id",
     editQuest: "/quests/:id/edit",
@@ -17,4 +19,8 @@ export function questEditPath(id: number | string): string {
 
 export function adventurerDetailsPath(id: number | string): string {
     return `/adventurers/${id}`;
+}
+
+export function adventurerEditPath(id: number | string): string {
+    return `/adventurers/${id}/edit`;
 }

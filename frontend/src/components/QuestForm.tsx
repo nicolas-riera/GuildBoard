@@ -114,12 +114,12 @@ export default function QuestForm({
     }
 
     return (
-        <form className="quest-form" onSubmit={handleSubmit} noValidate>
-            <h2 className="quest-form__title">{heading}</h2>
+        <form className="form" onSubmit={handleSubmit} noValidate>
+            <h2 className="form__title">{heading}</h2>
 
-            {error && <p className="quest-form__error">{error}</p>}
+            {error && <p className="form__error">{error}</p>}
 
-            <div className="quest-form__field">
+            <div className="form__field">
                 <label htmlFor="quest-title">Title</label>
                 <input
                     id="quest-title"
@@ -127,20 +127,20 @@ export default function QuestForm({
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
-                <span className="quest-form__hint">From 5 to 100 characters</span>
+                <span className="form__hint">From 5 to 100 characters</span>
             </div>
 
-            <div className="quest-form__field">
+            <div className="form__field">
                 <label htmlFor="quest-description">Description</label>
                 <textarea
                     id="quest-description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                 />
-                <span className="quest-form__hint">From 10 to 500 characters</span>
+                <span className="form__hint">From 10 to 500 characters</span>
             </div>
 
-            <div className="quest-form__field">
+            <div className="form__field">
                 <label htmlFor="quest-difficulty">Difficulty</label>
                 <select
                     id="quest-difficulty"
@@ -155,8 +155,8 @@ export default function QuestForm({
                 </select>
             </div>
 
-            <div className="quest-form__row">
-                <div className="quest-form__field">
+            <div className="form__row">
+                <div className="form__field">
                     <label htmlFor="quest-level">Required level</label>
                     <input
                         id="quest-level"
@@ -167,7 +167,7 @@ export default function QuestForm({
                     />
                 </div>
 
-                <div className="quest-form__field">
+                <div className="form__field">
                     <label htmlFor="quest-gold">Gold reward</label>
                     <input
                         id="quest-gold"
@@ -178,7 +178,7 @@ export default function QuestForm({
                     />
                 </div>
 
-                <div className="quest-form__field">
+                <div className="form__field">
                     <label htmlFor="quest-xp">Xp reward</label>
                     <input
                         id="quest-xp"
@@ -191,7 +191,7 @@ export default function QuestForm({
             </div>
 
             {canSuggestRewards && (
-                <div className="quest-form__suggest">
+                <div className="form__suggest">
                     <button
                         type="button"
                         className="btn"
@@ -200,13 +200,13 @@ export default function QuestForm({
                     >
                         Suggest rewards
                     </button>
-                    <span className="quest-form__hint">
+                    <span className="form__hint">
                         Rolls gold and xp from the level and the difficulty
                     </span>
                 </div>
             )}
 
-            <div className="quest-form__actions">
+            <div className="form__actions">
                 <button type="submit" className="btn btn--action" disabled={pending}>
                     {pending ? pendingLabel : submitLabel}
                 </button>

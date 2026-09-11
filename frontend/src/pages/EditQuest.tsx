@@ -53,10 +53,10 @@ export default function EditQuest() {
 
     if (quest.status !== QuestStatus.AVAILABLE) {
         return (
-            <main className="quest-form">
-                <h2 className="quest-form__title">Edit the quest</h2>
+            <main className="form">
+                <h2 className="form__title">Edit the quest</h2>
                 <p className="empty-row">Only an available quest can be edited.</p>
-                <div className="quest-form__actions">
+                <div className="form__actions">
                     <Link to={questDetailsPath(quest.id)} className="btn btn--action">
                         Back to the quest
                     </Link>

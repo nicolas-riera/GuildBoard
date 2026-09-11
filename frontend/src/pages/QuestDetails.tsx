@@ -91,7 +91,6 @@ export default function QuestDetails() {
             ? assignment
             : null;
 
-    // an available quest gets handed out, an on going one gets closed
     const statusAction =
         quest?.status === QuestStatus.AVAILABLE
             ? () => setAdventurersOpen(true)

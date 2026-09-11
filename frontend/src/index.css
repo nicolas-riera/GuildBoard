@@ -762,9 +762,9 @@ tbody td {
   white-space: nowrap;
 }
 
-/* --- Quest form (add / edit) --- */
+/* --- Forms (add / edit) --- */
 
-.quest-form {
+.form {
   flex: 1;
   width: 100%;
   max-width: 720px;
@@ -775,7 +775,7 @@ tbody td {
   gap: 18px;
 }
 
-.quest-form__title {
+.form__title {
   font-family: var(--font-display);
   font-size: 26px;
   font-weight: 500;
@@ -784,28 +784,28 @@ tbody td {
   text-align: center;
 }
 
-.quest-form__error {
+.form__error {
   margin: 0;
   color: var(--danger-bg);
   font-style: italic;
   text-align: center;
 }
 
-.quest-form__field {
+.form__field {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.quest-form__field label {
+.form__field label {
   font-family: var(--font-display);
   font-size: 20px;
   color: var(--ink);
 }
 
-.quest-form__field input,
-.quest-form__field select,
-.quest-form__field textarea {
+.form__field input,
+.form__field select,
+.form__field textarea {
   width: 100%;
   background-color: var(--input-bg);
   border: 1px solid var(--border-dark);
@@ -816,48 +816,48 @@ tbody td {
   color: var(--ink);
 }
 
-.quest-form__field textarea {
+.form__field textarea {
   min-height: 130px;
   resize: vertical;
 }
 
-.quest-form__hint {
+.form__hint {
   font-size: 15px;
   font-style: italic;
   color: var(--ink-muted);
 }
 
-.quest-form__row {
+.form__row {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
 }
 
-.quest-form__row .quest-form__field {
+.form__row .form__field {
   flex: 1;
   min-width: 130px;
 }
 
-.quest-form__suggest {
+.form__suggest {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
 }
 
-.quest-form__actions {
+.form__actions {
   display: flex;
   justify-content: center;
   gap: 16px;
   margin-top: 10px;
 }
 
-.quest-form__actions .btn--action {
+.form__actions .btn--action {
   font-size: 20px;
   padding: 8px 32px;
 }
 
-.quest-form button:disabled {
+.form button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }

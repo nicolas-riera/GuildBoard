@@ -1,15 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { getAdventurerById, getAdventurerHistory } from "../services/adventurerServices";
+import {
+    deleteAdventurer,
+    getAdventurerById,
+    getAdventurerHistory,
+} from "../services/adventurerServices";
 import type { AdventurerResponse } from "../types/adventurer";
 import type { AssignmentResponse } from "../types/assignment";
 import { CLASS_COLOR, CLASS_LABEL, DIFFICULTY_BADGE, DIFFICULTY_LABEL } from "../components/Record";
 import CompleteQuestModal from "../components/CompleteQuestModal";
+import ConfirmModal from "../components/ConfirmModal";
 import XpBar from "../components/XpBar";
 import { xpToNextLevel } from "../components/xp";
 import { formatDateTime } from "../components/format";
-import { ROUTES, questDetailsPath } from "../routes";
+import { ROUTES, adventurerEditPath, questDetailsPath } from "../routes";
 
 interface LoadResult {
     adventurerId: number;
@@ -26,13 +31,16 @@ function byMostRecent(a: AssignmentResponse, b: AssignmentResponse): number {
 
 export default function AdventurerDetails() {
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
     const adventurerId = Number(id);
 
     const [result, setResult] = useState<LoadResult | null>(null);
     const [completeOpen, setCompleteOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
     const [reloadToken, setReloadToken] = useState(0);
 
     const closeComplete = useCallback(() => setCompleteOpen(false), []);
+    const closeDelete = useCallback(() => setDeleteOpen(false), []);
 
     const handleCompleted = useCallback(() => {
         setCompleteOpen(false);
@@ -68,6 +76,12 @@ export default function AdventurerDetails() {
     const completed = (loaded?.history ?? [])
         .filter((assignment) => assignment.completedAt !== null)
         .sort(byMostRecent);
+
+    async function handleDelete() {
+        if (adventurer === null) return;
+        await deleteAdventurer(adventurer.id);
+        navigate(ROUTES.adventurers);
+    }
 
     return (
         <main className="adventurer-detail">
@@ -268,6 +282,35 @@ export default function AdventurerDetails() {
                         <Link to={ROUTES.adventurers} className="btn">
                             Back to the guild
                         </Link>
+                        <button
+                            type="button"
+                            className="btn"
+                            onClick={() => navigate(adventurerEditPath(adventurer.id))}
+                        >
+                            Edit
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn--icon btn--danger"
+                            onClick={() => setDeleteOpen(true)}
+                            disabled={onGoing !== null}
+                            title={
+                                onGoing === null
+                                    ? "Delete this adventurer"
+                                    : "An adventurer on a quest cannot be deleted"
+                            }
+                            aria-label={`Delete the adventurer ${adventurer.name}`}
+                        >
+                            <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                                <circle cx="12" cy="12" r="10" fill="currentColor" />
+                                <path
+                                    d="M8.5 8.5l7 7M15.5 8.5l-7 7"
+                                    stroke="var(--btn-bg)"
+                                    strokeWidth="2.4"
+                                    strokeLinecap="round"
+                                />
+                            </svg>
+                        </button>
                     </div>
 
                     {completeOpen && onGoing !== null && (
@@ -275,6 +318,22 @@ export default function AdventurerDetails() {
                             questId={onGoing.questId}
                             onCompleted={handleCompleted}
                             onClose={closeComplete}
+                        />
+                    )}
+
+                    {deleteOpen && (
+                        <ConfirmModal
+                            title="Delete the adventurer"
+                            message={
+                                <>
+                                    <strong>{adventurer.name}</strong> and their quest history
+                                    will be removed for good.
+                                </>
+                            }
+                            question="Do you really want to delete them?"
+                            pendingLabel="Deleting..."
+                            onConfirm={handleDelete}
+                            onClose={closeDelete}
                         />
                     )}
                 </>

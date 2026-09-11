@@ -10,7 +10,7 @@ import type { RangeMode } from "../components/RangeFilter";
 import SortableHeader from "../components/SortableHeader";
 import type { Sort } from "../components/SortableHeader";
 import XpBar from "../components/XpBar";
-import { adventurerDetailsPath } from "../routes";
+import { ROUTES, adventurerDetailsPath } from "../routes";
 
 type ClassFilter = CharacterClass | "ALL";
 type SortKey = "name" | "class" | "level" | "gold" | "xp";
@@ -265,9 +265,9 @@ export default function Adventurers() {
                 </div>
 
                 <div className="action-bar">
-                    <button type="button" className="btn btn--action">
+                    <Link to={ROUTES.newAdventurer} className="btn btn--action">
                         Add an adventurer
-                    </button>
+                    </Link>
                 </div>
             </main>
         </div>
