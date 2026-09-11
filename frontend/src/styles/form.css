@@ -1,0 +1,82 @@
+.form {
+  flex: 1;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form__title {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--ink);
+  margin: 0;
+  text-align: center;
+}
+
+.form__error {
+  margin: 0;
+  color: var(--danger-bg);
+  font-style: italic;
+  text-align: center;
+}
+
+.form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form__field label {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.form__field input,
+.form__field select,
+.form__field textarea {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 18px;
+}
+
+.form__field textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.form__hint {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--ink-muted);
+}
+
+.form__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.form__row .form__field {
+  flex: 1;
+  min-width: 130px;
+}
+
+.form__suggest {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.form__actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 10px;
+}

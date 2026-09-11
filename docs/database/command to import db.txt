@@ -1,0 +1,5 @@
+createdb -U postgres guildboard
+
+then :
+
+psql -U postgres -d guildboard -f guildboard.sql
