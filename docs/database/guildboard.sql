@@ -214,13 +214,13 @@ ALTER TABLE ONLY public."Quest" ALTER COLUMN id SET DEFAULT nextval('public."Que
 --
 
 COPY public."Adventurer" (id, name, "characterClass", level, xp, gold) FROM stdin;
-5	Frieren	MAGE	1	0	0
-6	Legolas	RANGER	1	0	0
-7	Darius	WARRIOR	1	0	0
-8	Reinhardt	WARRIOR	1	0	0
-9	Jaina	MAGE	1	0	0
-10	Sinon	RANGER	1	0	0
-11	Anduin 	CLERIC	1	0	0
+1	Frieren	MAGE	1	0	0
+2	Legolas	RANGER	1	0	0
+3	Darius	WARRIOR	1	0	0
+4	Reinhardt	WARRIOR	1	0	0
+5	Jaina	MAGE	1	0	0
+6	Sinon	RANGER	1	0	0
+7	Anduin 	CLERIC	1	0	0
 \.
 
 
@@ -237,26 +237,26 @@ COPY public."Assignment" (id, adventurer, quest, "assignedAt", "completedAt") FR
 --
 
 COPY public."Quest" (id, title, description, difficulty, "requiredLevel", "goldReward", "xpReward", status) FROM stdin;
-7	Kill the Lich King	The Frozen Throne stirs atop Icecrown Citadel, where the Lich King awaits to claim your soul for the Scourge. Defy the relentless hunger of Frostmourne, brave the biting cold, and strike down the master of the undead before his endless winter consumes the living. But tread carefully on the shattered ice—for there must always be a Lich King.	EPIC	80	6600	13200	AVAILABLE
-8	Escort a shipement	A merchant requests an escort for a supply wagon headed to the frontier outpost. The trade route is quiet, but roadside brigands and wild beasts still threaten lone travelers. Walk alongside the cart and ensure both cargo and driver arrive intact.	MEDIUM	15	407	813	AVAILABLE
-9	Kill 3 wolwes	Hungry timber wolves have wandered too close to the village outskirts, troubling livestock and travelers. Cull three of them in the nearby woods so the path remains quiet and safe for the locals.	EASY	1	10	19	AVAILABLE
-10	Steal a golden egg	A prized hen nesting deep within a guarded roost lays eggs of solid gold. Slip past the sentries, snatch one of the gilded eggs, and make a clean getaway. The creature itself must remain completely unharmed—harm a single feather, and the contract is void.	HARD	40	1738	3476	AVAILABLE
-11	Keep the white rabbit	A nervous patron needs someone to watch over a seemingly innocent white rabbit for the day. Do not let the soft fur fool you: the beast possesses a vicious streak a mile wide and nasty, sharp teeth that can tear through plate armor. Keep it fed, guard your neck, and try to make it to sundown in one piece.	HARD	55	2706	5412	AVAILABLE
-12	Riverbank herb gathering	The village herbalist needs fresh river reeds that only grow along the southern marsh. Watch your step: aggressive snapping turtles and large mud-crabs nest in the tall reeds. Gather the plants and bring them back intact.	EASY	6	62	124	AVAILABLE
-13	A feast from scraps	The elder of a struggling farming settlement insists on holding an autumn festival to draw traveling merchants, but the village coffers and larders are completely empty. Hunt wild game in the surrounding woods for the banquet, collect glowing cave moss to light the square, and secure the perimeter so scavenging beasts aren't drawn by the smell of roasting meat.	MEDIUM	12	264	528	AVAILABLE
-14	The colossus of Jötunheimr	A towering frost giant has carved out a stronghold among the jagged peaks of Jötunheimr, threatening the mountain crossings. Brave the biting blizzards, strike down the chieftain in his icy courtyard, and break his clan's grip on the passes once and for all.	HARD	23	1118	2236	AVAILABLE
-15	Trench vermin	The molten scorpions nesting in the lower trenches already slaughtered a rookie militia squad and reduced a nearby farming hamlet to cinders. What was an absolute massacre for low-level greenhorns is routine pest control for an experienced veteran. Head down into the charred ditch, stomp out half a dozen of the beasts, and clear the perimeter before they creep toward the main vanguard camp.	EASY	60	660	1320	AVAILABLE
-16	Slayer's intern	A green-armored terror has plunged straight into Hell, ripping and tearing through demon legions with a smoking double-barreled shotgun. You are merely his frantic intern. Dodge raining gore, haul his heavy ammo crates, and survive the burning abyss by staying locked in the Doom Slayer's bloody wake.	EPIC	15	1101	2202	AVAILABLE
-17	Clear the cellar	Giant rats have infested the tavern cellar, chewing through food crates and threatening the barkeep. Head down with a torch, clear out the nest, and make the basement safe for storage once again.	EASY	1	10	19	AVAILABLE
-18	Delivering supplies	The local blacksmith needs a bag of iron rivets delivered to the watchtower down the road. It is a quick walk, but keep your eyes open for hungry stray dogs along the path.	EASY	1	10	19	AVAILABLE
-19	Chase the crows	Frightening crows are ruining the farmer barley harvest. Walk through the fields, bang on a wooden shield to scatter the flock, and destroy two of their nests in the tree line.	EASY	1	10	19	AVAILABLE
-20	Lost wedding ring	A careless villager dropped a brass ring somewhere in the shallow duck pond. Wade into the mud, sift through the reeds, and return the keepsake to its owner.	EASY	1	10	19	AVAILABLE
-21	Gather wild berries	The alchemist apprentice needs fresh bitterberries to brew basic healing salves. Search the bushes near the treeline and pick a handful before the sun sets.	EASY	1	10	19	AVAILABLE
-22	Goblin scout patrol	A lone goblin scout has been spotted spying on the outskirts of the hamlet. Track his footprints into the brush, defeat him before he alerts his camp, and bring back his crude dagger.	EASY	2	16	31	AVAILABLE
-23	Stolen tools	A mischievous thief snatched a woodcutter ax and ran into the hills. Follow the tracks, reclaim the stolen iron tool, and return it to the logging camp.	EASY	2	16	31	AVAILABLE
-24	Clear the well	The village water well is blocked by a cluster of giant cavern spiders. Climb down the rope, clear out the webs, and exterminate the nest so locals can draw clean water.	EASY	2	16	31	AVAILABLE
-25	Frightened livestock	Three sheep escaped their pen after a thunderstorm and wandered toward the ravine. Locate the stray animals and guide them back safely to the farmstead.	EASY	2	16	31	AVAILABLE
-26	Light the beacons	Night is falling and the watchtower braziers along the perimeter road need to be lit. Take a burning brand, run along the wall line, and kindle all three signal fires.	EASY	2	16	31	AVAILABLE
+1	Kill the Lich King	The Frozen Throne stirs atop Icecrown Citadel, where the Lich King awaits to claim your soul for the Scourge. Defy the relentless hunger of Frostmourne, brave the biting cold, and strike down the master of the undead before his endless winter consumes the living. But tread carefully on the shattered ice—for there must always be a Lich King.	EPIC	80	6600	13200	AVAILABLE
+2	Escort a shipement	A merchant requests an escort for a supply wagon headed to the frontier outpost. The trade route is quiet, but roadside brigands and wild beasts still threaten lone travelers. Walk alongside the cart and ensure both cargo and driver arrive intact.	MEDIUM	15	407	813	AVAILABLE
+3	Kill 3 wolwes	Hungry timber wolves have wandered too close to the village outskirts, troubling livestock and travelers. Cull three of them in the nearby woods so the path remains quiet and safe for the locals.	EASY	1	10	19	AVAILABLE
+4	Steal a golden egg	A prized hen nesting deep within a guarded roost lays eggs of solid gold. Slip past the sentries, snatch one of the gilded eggs, and make a clean getaway. The creature itself must remain completely unharmed—harm a single feather, and the contract is void.	HARD	40	1738	3476	AVAILABLE
+5	Keep the white rabbit	A nervous patron needs someone to watch over a seemingly innocent white rabbit for the day. Do not let the soft fur fool you: the beast possesses a vicious streak a mile wide and nasty, sharp teeth that can tear through plate armor. Keep it fed, guard your neck, and try to make it to sundown in one piece.	HARD	55	2706	5412	AVAILABLE
+6	Riverbank herb gathering	The village herbalist needs fresh river reeds that only grow along the southern marsh. Watch your step: aggressive snapping turtles and large mud-crabs nest in the tall reeds. Gather the plants and bring them back intact.	EASY	6	62	124	AVAILABLE
+7	A feast from scraps	The elder of a struggling farming settlement insists on holding an autumn festival to draw traveling merchants, but the village coffers and larders are completely empty. Hunt wild game in the surrounding woods for the banquet, collect glowing cave moss to light the square, and secure the perimeter so scavenging beasts aren't drawn by the smell of roasting meat.	MEDIUM	12	264	528	AVAILABLE
+8	The colossus of Jötunheimr	A towering frost giant has carved out a stronghold among the jagged peaks of Jötunheimr, threatening the mountain crossings. Brave the biting blizzards, strike down the chieftain in his icy courtyard, and break his clan's grip on the passes once and for all.	HARD	23	1118	2236	AVAILABLE
+9	Trench vermin	The molten scorpions nesting in the lower trenches already slaughtered a rookie militia squad and reduced a nearby farming hamlet to cinders. What was an absolute massacre for low-level greenhorns is routine pest control for an experienced veteran. Head down into the charred ditch, stomp out half a dozen of the beasts, and clear the perimeter before they creep toward the main vanguard camp.	EASY	60	660	1320	AVAILABLE
+10	Slayer's intern	A green-armored terror has plunged straight into Hell, ripping and tearing through demon legions with a smoking double-barreled shotgun. You are merely his frantic intern. Dodge raining gore, haul his heavy ammo crates, and survive the burning abyss by staying locked in the Doom Slayer's bloody wake.	EPIC	15	1101	2202	AVAILABLE
+11	Clear the cellar	Giant rats have infested the tavern cellar, chewing through food crates and threatening the barkeep. Head down with a torch, clear out the nest, and make the basement safe for storage once again.	EASY	1	10	19	AVAILABLE
+12	Delivering supplies	The local blacksmith needs a bag of iron rivets delivered to the watchtower down the road. It is a quick walk, but keep your eyes open for hungry stray dogs along the path.	EASY	1	10	19	AVAILABLE
+13	Chase the crows	Frightening crows are ruining the farmer barley harvest. Walk through the fields, bang on a wooden shield to scatter the flock, and destroy two of their nests in the tree line.	EASY	1	10	19	AVAILABLE
+14	Lost wedding ring	A careless villager dropped a brass ring somewhere in the shallow duck pond. Wade into the mud, sift through the reeds, and return the keepsake to its owner.	EASY	1	10	19	AVAILABLE
+15	Gather wild berries	The alchemist apprentice needs fresh bitterberries to brew basic healing salves. Search the bushes near the treeline and pick a handful before the sun sets.	EASY	1	10	19	AVAILABLE
+16	Goblin scout patrol	A lone goblin scout has been spotted spying on the outskirts of the hamlet. Track his footprints into the brush, defeat him before he alerts his camp, and bring back his crude dagger.	EASY	2	16	31	AVAILABLE
+17	Stolen tools	A mischievous thief snatched a woodcutter ax and ran into the hills. Follow the tracks, reclaim the stolen iron tool, and return it to the logging camp.	EASY	2	16	31	AVAILABLE
+18	Clear the well	The village water well is blocked by a cluster of giant cavern spiders. Climb down the rope, clear out the webs, and exterminate the nest so locals can draw clean water.	EASY	2	16	31	AVAILABLE
+19	Frightened livestock	Three sheep escaped their pen after a thunderstorm and wandered toward the ravine. Locate the stray animals and guide them back safely to the farmstead.	EASY	2	16	31	AVAILABLE
+20	Light the beacons	Night is falling and the watchtower braziers along the perimeter road need to be lit. Take a burning brand, run along the wall line, and kindle all three signal fires.	EASY	2	16	31	AVAILABLE
 \.
 
 
