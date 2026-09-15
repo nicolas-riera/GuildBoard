@@ -12,7 +12,7 @@ GuildBoard is a full-stack school project consisting of a quest management web a
 - Adventurer Management: Track statistics (level, XP, gold), view assignment history, and monitor experience progression.
 - Quest Board: Create, update, and filter quests by status and difficulty level.
 - Assignment System: Assign adventurers to quests based on level requirements and track their progress.
-- Business Rules:Level validation before allowing an adventurer to accept a quest.
+- Business Rules: Level validation before allowing an adventurer to accept a quest.
 - Restriction of one active quest at a time per adventurer.
 - Gold and XP rewards upon quest completion with automated level-ups.
 
